@@ -29,7 +29,7 @@ ly_add_target(
             Include
     BUILD_DEPENDENCIES
         INTERFACE
-           AZ::AzCore
+            AZ::AzCore
 )
 
 # The ${gem_name}.Private.Object target is an internal target
@@ -50,6 +50,7 @@ ly_add_target(
         PUBLIC
             AZ::AzCore
             AZ::AzFramework
+            Legacy::CryCommon
 )
 
 # Here add ${gem_name} target, it depends on the Private Object library and Public API interface
