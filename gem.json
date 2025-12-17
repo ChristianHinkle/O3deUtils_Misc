@@ -1,0 +1,30 @@
+{
+    "gem_name": "O3deUtils_Misc",
+    "version": "1.0.0",
+    "display_name": "O3deUtils_Misc",
+    "license": "",
+    "license_url": "",
+    "origin": "",
+    "origin_url": "",
+    "type": "Code",
+    "summary": "",
+    "canonical_tags": [
+        "Gem"
+    ],
+    "user_tags": [
+        "O3deUtils_Misc"
+    ],
+    "platforms": [
+        "iOS","Linux","Android","Windows"
+    ],
+    "icon_path": "preview.png",
+    "requirements": "",
+    "documentation_url": "",
+    "dependencies": [
+    ],
+    "repo_uri": "",
+    "compatible_engines": [
+    ],
+    "engine_api_dependencies":[
+    ]
+}
