@@ -1,7 +1,7 @@
 
 #include <O3deUtils_Misc/O3deUtils_MiscTypeIds.h>
-#include <O3deUtils_MiscModuleInterface.h>
-#include "O3deUtils_MiscEditorSystemComponent.h"
+#include <Source/O3deUtils_MiscModuleInterface.h>
+#include <Source/Tools/O3deUtils_MiscEditorSystemComponent.h>
 
 namespace O3deUtils_Misc
 {

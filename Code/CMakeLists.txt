@@ -17,60 +17,208 @@ if(NOT PAL_TRAIT_O3DEUTILS_MISC_SUPPORTED)
     return()
 endif()
 
-# The ${gem_name}.API target declares the common interface that users of this gem should depend on in their targets
+set(MY_COMMON_API_FILES_CMAKE
+    o3deutils_misc_api_files.cmake
+    ${pal_dir}/o3deutils_misc_api_files.cmake
+)
+
+set(MY_COMMON_API_INCLUDE_DIRECTORIES
+    INTERFACE
+        Include
+)
+
+set(MY_COMMON_API_BUILD_DEPENDENCIES
+    INTERFACE
+        AZ::AzCore
+)
+
+# Add our API targets.
+
+# The ".API" target declares the common interface that users of this gem should depend on in their targets
+
 ly_add_target(
     NAME ${gem_name}.API INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
-        o3deutils_misc_api_files.cmake
-        ${pal_dir}/o3deutils_misc_api_files.cmake
+        ${MY_COMMON_API_FILES_CMAKE}
     INCLUDE_DIRECTORIES
-        INTERFACE
-            Include
+        ${MY_COMMON_API_INCLUDE_DIRECTORIES}
     BUILD_DEPENDENCIES
-        INTERFACE
-            AZ::AzCore
+        ${MY_COMMON_API_BUILD_DEPENDENCIES}
 )
 
-# The ${gem_name}.Private.Object target is an internal target
-# It should not be used outside of this Gems CMakeLists.txt
 ly_add_target(
-    NAME ${gem_name}.Private.Object STATIC
+    NAME ${gem_name}.Server.API INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
-        o3deutils_misc_private_files.cmake
-        ${pal_dir}/o3deutils_misc_private_files.cmake
-    TARGET_PROPERTIES
-        O3DE_PRIVATE_TARGET TRUE
+        ${MY_COMMON_API_FILES_CMAKE}
     INCLUDE_DIRECTORIES
-        PRIVATE
-            Include
-            Source
+        ${MY_COMMON_API_INCLUDE_DIRECTORIES}
     BUILD_DEPENDENCIES
-        PUBLIC
-            AZ::AzCore
-            AZ::AzFramework
-            Legacy::CryCommon
+        ${MY_COMMON_API_BUILD_DEPENDENCIES}
 )
 
-# Here add ${gem_name} target, it depends on the Private Object library and Public API interface
+ly_add_target(
+    NAME ${gem_name}.Client.API INTERFACE
+    NAMESPACE Gem
+    FILES_CMAKE
+        ${MY_COMMON_API_FILES_CMAKE}
+    INCLUDE_DIRECTORIES
+        ${MY_COMMON_API_INCLUDE_DIRECTORIES}
+    BUILD_DEPENDENCIES
+        ${MY_COMMON_API_BUILD_DEPENDENCIES}
+)
+
+# Unset these variables, as they are no longer needed.
+unset(MY_COMMON_API_FILES_CMAKE)
+unset(MY_COMMON_API_INCLUDE_DIRECTORIES)
+unset(MY_COMMON_API_BUILD_DEPENDENCIES)
+
+# These variables contain common items that are used in all unified, server, and client versions of our static target.
+
+set(MY_COMMON_STATIC_FILES_CMAKE
+    o3deutils_misc_private_files.cmake
+    ${pal_dir}/o3deutils_misc_private_files.cmake
+)
+
+set(MY_COMMON_STATIC_TARGET_PROPERTIES
+    O3DE_PRIVATE_TARGET TRUE
+)
+
+set(MY_COMMON_STATIC_INCLUDE_DIRECTORIES
+    PUBLIC
+        Include
+    PRIVATE
+        .
+)
+
+set(MY_COMMON_STATIC_BUILD_DEPENDENCIES
+    PUBLIC
+        AZ::AzCore
+        AZ::AzFramework
+        Legacy::CryCommon
+)
+
+# Add our static targets. @Christian: TODO: [todo][techdebt][cmake][multiplayer] Support multiplayer compile definitions (`AZ_TRAIT_CLIENT` and `AZ_TRAIT_SERVER`) without needing to depend on the multiplayer gem?
+
+# The ".Static" target is an internal target
+# It should not be used outside of this Gems CMakeLists.txt
+
+ly_add_target(
+    NAME ${gem_name}.Unified.Static STATIC
+    NAMESPACE Gem
+    FILES_CMAKE
+        ${MY_COMMON_STATIC_FILES_CMAKE}
+    TARGET_PROPERTIES
+        ${MY_COMMON_STATIC_TARGET_PROPERTIES}
+    INCLUDE_DIRECTORIES
+        ${MY_COMMON_STATIC_INCLUDE_DIRECTORIES}
+    BUILD_DEPENDENCIES
+        ${MY_COMMON_STATIC_BUILD_DEPENDENCIES}
+)
+
+ly_add_target(
+    NAME ${gem_name}.Server.Static STATIC
+    NAMESPACE Gem
+    FILES_CMAKE
+        ${MY_COMMON_STATIC_FILES_CMAKE}
+    TARGET_PROPERTIES
+        ${MY_COMMON_STATIC_TARGET_PROPERTIES}
+    INCLUDE_DIRECTORIES
+        ${MY_COMMON_STATIC_INCLUDE_DIRECTORIES}
+    BUILD_DEPENDENCIES
+        ${MY_COMMON_STATIC_BUILD_DEPENDENCIES}
+)
+
+ly_add_target(
+    NAME ${gem_name}.Client.Static STATIC
+    NAMESPACE Gem
+    FILES_CMAKE
+        ${MY_COMMON_STATIC_FILES_CMAKE}
+    TARGET_PROPERTIES
+        ${MY_COMMON_STATIC_TARGET_PROPERTIES}
+    INCLUDE_DIRECTORIES
+        ${MY_COMMON_STATIC_INCLUDE_DIRECTORIES}
+    BUILD_DEPENDENCIES
+        ${MY_COMMON_STATIC_BUILD_DEPENDENCIES}
+)
+
+# Unset these variables, as they are no longer needed.
+unset(MY_COMMON_STATIC_FILES_CMAKE)
+unset(MY_COMMON_STATIC_TARGET_PROPERTIES)
+unset(MY_COMMON_STATIC_INCLUDE_DIRECTORIES)
+unset(MY_COMMON_STATIC_BUILD_DEPENDENCIES)
+
+# These variables contain common items that are used in all unified, server, and client versions of our module target.
+
+set(MY_COMMON_MODULE_FILES_CMAKE
+    o3deutils_misc_shared_files.cmake
+    ${pal_dir}/o3deutils_misc_shared_files.cmake
+)
+
+set(MY_COMMON_MODULE_INCLUDE_DIRECTORIES
+    PUBLIC
+        Include
+    PRIVATE
+        .
+)
+
+set(MY_COMMON_MODULE_BUILD_DEPENDENCIES
+)
+
+# Add our module targets.
+
+# Here add ${gem_name} target, it depends on the ".Static" library and Public API interface
+
 ly_add_target(
     NAME ${gem_name} ${PAL_TRAIT_MONOLITHIC_DRIVEN_MODULE_TYPE}
     NAMESPACE Gem
     FILES_CMAKE
-        o3deutils_misc_shared_files.cmake
-        ${pal_dir}/o3deutils_misc_shared_files.cmake
+        ${MY_COMMON_MODULE_FILES_CMAKE}
     INCLUDE_DIRECTORIES
-        PUBLIC
-            Include
-        PRIVATE
-            Source
+        ${MY_COMMON_MODULE_INCLUDE_DIRECTORIES}
     BUILD_DEPENDENCIES
+        ${MY_COMMON_MODULE_BUILD_DEPENDENCIES}
         PUBLIC
             Gem::${gem_name}.API
         PRIVATE
-            Gem::${gem_name}.Private.Object
+            Gem::${gem_name}.Unified.Static
 )
+
+ly_add_target(
+    NAME ${gem_name}.Server ${PAL_TRAIT_MONOLITHIC_DRIVEN_MODULE_TYPE}
+    NAMESPACE Gem
+    FILES_CMAKE
+        ${MY_COMMON_MODULE_FILES_CMAKE}
+    INCLUDE_DIRECTORIES
+        ${MY_COMMON_MODULE_INCLUDE_DIRECTORIES}
+    BUILD_DEPENDENCIES
+        ${MY_COMMON_MODULE_BUILD_DEPENDENCIES}
+        PUBLIC
+            Gem::${gem_name}.Server.API
+        PRIVATE
+            Gem::${gem_name}.Server.Static
+)
+
+ly_add_target(
+    NAME ${gem_name}.Client ${PAL_TRAIT_MONOLITHIC_DRIVEN_MODULE_TYPE}
+    NAMESPACE Gem
+    FILES_CMAKE
+        ${MY_COMMON_MODULE_FILES_CMAKE}
+    INCLUDE_DIRECTORIES
+        ${MY_COMMON_MODULE_INCLUDE_DIRECTORIES}
+    BUILD_DEPENDENCIES
+        ${MY_COMMON_MODULE_BUILD_DEPENDENCIES}
+        PUBLIC
+            Gem::${gem_name}.Client.API
+        PRIVATE
+            Gem::${gem_name}.Client.Static
+)
+
+# Unset these variables, as they are no longer needed.
+unset(MY_COMMON_MODULE_FILES_CMAKE)
+unset(MY_COMMON_MODULE_INCLUDE_DIRECTORIES)
+unset(MY_COMMON_MODULE_BUILD_DEPENDENCIES)
 
 # Include the gem name into the Client Module source file
 # for use with the AZ_DECLARE_MODULE_CLASS macro
@@ -88,14 +236,14 @@ PROPERTY COMPILE_DEFINITIONS
 # By default, we will specify that the above target ${gem_name} would be used by
 # Client and Server type targets when this gem is enabled.  If you don't want it
 # active in Clients or Servers by default, delete one of both of the following lines:
-ly_create_alias(NAME ${gem_name}.Clients NAMESPACE Gem TARGETS Gem::${gem_name})
-ly_create_alias(NAME ${gem_name}.Servers NAMESPACE Gem TARGETS Gem::${gem_name})
 ly_create_alias(NAME ${gem_name}.Unified NAMESPACE Gem TARGETS Gem::${gem_name})
+ly_create_alias(NAME ${gem_name}.Servers NAMESPACE Gem TARGETS Gem::${gem_name}.Server)
+ly_create_alias(NAME ${gem_name}.Clients NAMESPACE Gem TARGETS Gem::${gem_name}.Client)
 
-# For the Client and Server variants of ${gem_name} Gem, an alias to the ${gem_name}.API target will be made
-ly_create_alias(NAME ${gem_name}.Clients.API NAMESPACE Gem TARGETS Gem::${gem_name}.API)
-ly_create_alias(NAME ${gem_name}.Servers.API NAMESPACE Gem TARGETS Gem::${gem_name}.API)
+# For the Client and Server variants of ${gem_name} Gem, an alias to the ".API" target will be made
 ly_create_alias(NAME ${gem_name}.Unified.API NAMESPACE Gem TARGETS Gem::${gem_name}.API)
+ly_create_alias(NAME ${gem_name}.Servers.API NAMESPACE Gem TARGETS Gem::${gem_name}.Server.API)
+ly_create_alias(NAME ${gem_name}.Clients.API NAMESPACE Gem TARGETS Gem::${gem_name}.Client.API)
 
 # Add in CMake dependencies for each gem dependency listed in this gem's gem.json file
 # for the Clients, Servers, Unified gem variants
@@ -118,11 +266,11 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
                 AZ::AzToolsFramework
     )
 
-    # The ${gem_name}.Editor.Private.Object target is an internal target
+    # The ${gem_name}.Editor.Static target is an internal target
     # which is only to be used by this gems CMakeLists.txt and any subdirectories
     # Other gems should not use this target
     ly_add_target(
-        NAME ${gem_name}.Editor.Private.Object STATIC
+        NAME ${gem_name}.Editor.Static STATIC
         NAMESPACE Gem
         FILES_CMAKE
             o3deutils_misc_editor_private_files.cmake
@@ -131,11 +279,11 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         INCLUDE_DIRECTORIES
             PRIVATE
                 Include
-                Source
+                .
         BUILD_DEPENDENCIES
             PUBLIC
                 AZ::AzToolsFramework
-                ${gem_name}.Private.Object
+                ${gem_name}.Unified.Static
     )
 
     ly_add_target(
@@ -146,14 +294,14 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
             o3deutils_misc_editor_shared_files.cmake
         INCLUDE_DIRECTORIES
             PRIVATE
-                Source
+                .
             PUBLIC
                 Include
         BUILD_DEPENDENCIES
             PUBLIC
                 Gem::${gem_name}.Editor.API
             PRIVATE
-                Gem::${gem_name}.Editor.Private.Object
+                Gem::${gem_name}.Editor.Static
     )
 
     # Include the gem name into the Editor Module source file
@@ -191,7 +339,7 @@ endif()
 if(PAL_TRAIT_BUILD_TESTS_SUPPORTED)
     # We globally support tests, see if we support tests on this platform for ${gem_name}.Tests
     if(PAL_TRAIT_O3DEUTILS_MISC_TEST_SUPPORTED)
-        # We support ${gem_name}.Tests on this platform, add dependency on the Private Object target
+        # We support ${gem_name}.Tests on this platform, add dependency on the ".Static" target
         ly_add_target(
             NAME ${gem_name}.Tests ${PAL_TRAIT_TEST_TARGET_TYPE}
             NAMESPACE Gem
@@ -200,13 +348,13 @@ if(PAL_TRAIT_BUILD_TESTS_SUPPORTED)
             INCLUDE_DIRECTORIES
                 PRIVATE
                     Tests
-                    Source
+                    .
                     Include
             BUILD_DEPENDENCIES
                 PRIVATE
                     AZ::AzTest
                     AZ::AzFramework
-                    Gem::${gem_name}.Private.Object
+                    Gem::${gem_name}.Unified.Static
         )
 
         # Add ${gem_name}.Tests to googletest
@@ -220,7 +368,7 @@ if(PAL_TRAIT_BUILD_TESTS_SUPPORTED)
         # We are a host platform, see if Editor tests are supported on this platform
         if(PAL_TRAIT_O3DEUTILS_MISC_EDITOR_TEST_SUPPORTED)
             # We support ${gem_name}.Editor.Tests on this platform, add ${gem_name}.Editor.Tests target which depends on
-            # private ${gem_name}.Editor.Private.Object target
+            # private ${gem_name}.Editor.Static target
             ly_add_target(
                 NAME ${gem_name}.Editor.Tests ${PAL_TRAIT_TEST_TARGET_TYPE}
                 NAMESPACE Gem
@@ -229,12 +377,12 @@ if(PAL_TRAIT_BUILD_TESTS_SUPPORTED)
                 INCLUDE_DIRECTORIES
                     PRIVATE
                         Tests
-                        Source
+                        .
                         Include
                 BUILD_DEPENDENCIES
                     PRIVATE
                         AZ::AzTest
-                        Gem::${gem_name}.Editor.Private.Object
+                        Gem::${gem_name}.Editor.Static
             )
 
             # Add ${gem_name}.Editor.Tests to googletest

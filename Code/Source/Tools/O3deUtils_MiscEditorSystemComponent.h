@@ -3,7 +3,7 @@
 
 #include <AzToolsFramework/API/ToolsApplicationAPI.h>
 
-#include <O3deUtils_MiscSystemComponent.h>
+#include <Source/O3deUtils_MiscSystemComponent.h>
 
 namespace O3deUtils_Misc
 {
