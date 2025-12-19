@@ -74,80 +74,80 @@ unset(MY_COMMON_API_FILES_CMAKE)
 unset(MY_COMMON_API_INCLUDE_DIRECTORIES)
 unset(MY_COMMON_API_BUILD_DEPENDENCIES)
 
-# These variables contain common items that are used in all unified, server, and client versions of our static target.
+# These variables contain common items that are used in all unified, server, and client versions of our ".Private.Object" target.
 
-set(MY_COMMON_STATIC_FILES_CMAKE
+set(MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE
     o3deutils_misc_private_files.cmake
     ${pal_dir}/o3deutils_misc_private_files.cmake
 )
 
-set(MY_COMMON_STATIC_TARGET_PROPERTIES
+set(MY_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES
     O3DE_PRIVATE_TARGET TRUE
 )
 
-set(MY_COMMON_STATIC_INCLUDE_DIRECTORIES
+set(MY_COMMON_PRIVATE_OBJECT_INCLUDE_DIRECTORIES
     PUBLIC
         Include
     PRIVATE
         .
 )
 
-set(MY_COMMON_STATIC_BUILD_DEPENDENCIES
+set(MY_COMMON_PRIVATE_OBJECT_BUILD_DEPENDENCIES
     PUBLIC
         AZ::AzCore
         AZ::AzFramework
         Legacy::CryCommon
 )
 
-# Add our static targets. @Christian: TODO: [todo][techdebt][cmake][multiplayer] Support multiplayer compile definitions (`AZ_TRAIT_CLIENT` and `AZ_TRAIT_SERVER`) without needing to depend on the multiplayer gem?
+# Add our ".Private.Object" targets. @Christian: TODO: [todo][techdebt][cmake][multiplayer] Support multiplayer compile definitions (`AZ_TRAIT_CLIENT` and `AZ_TRAIT_SERVER`) without needing to depend on the multiplayer gem?
 
-# The ".Static" target is an internal target
+# The ".Private.Object" target is an internal target
 # It should not be used outside of this Gems CMakeLists.txt
 
 ly_add_target(
-    NAME ${gem_name}.Unified.Static STATIC
+    NAME ${gem_name}.Unified.Private.Object STATIC
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_STATIC_FILES_CMAKE}
+        ${MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
     TARGET_PROPERTIES
-        ${MY_COMMON_STATIC_TARGET_PROPERTIES}
+        ${MY_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     INCLUDE_DIRECTORIES
-        ${MY_COMMON_STATIC_INCLUDE_DIRECTORIES}
+        ${MY_COMMON_PRIVATE_OBJECT_INCLUDE_DIRECTORIES}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_STATIC_BUILD_DEPENDENCIES}
+        ${MY_COMMON_PRIVATE_OBJECT_BUILD_DEPENDENCIES}
 )
 
 ly_add_target(
-    NAME ${gem_name}.Server.Static STATIC
+    NAME ${gem_name}.Server.Private.Object STATIC
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_STATIC_FILES_CMAKE}
+        ${MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
     TARGET_PROPERTIES
-        ${MY_COMMON_STATIC_TARGET_PROPERTIES}
+        ${MY_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     INCLUDE_DIRECTORIES
-        ${MY_COMMON_STATIC_INCLUDE_DIRECTORIES}
+        ${MY_COMMON_PRIVATE_OBJECT_INCLUDE_DIRECTORIES}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_STATIC_BUILD_DEPENDENCIES}
+        ${MY_COMMON_PRIVATE_OBJECT_BUILD_DEPENDENCIES}
 )
 
 ly_add_target(
-    NAME ${gem_name}.Client.Static STATIC
+    NAME ${gem_name}.Client.Private.Object STATIC
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_STATIC_FILES_CMAKE}
+        ${MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
     TARGET_PROPERTIES
-        ${MY_COMMON_STATIC_TARGET_PROPERTIES}
+        ${MY_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     INCLUDE_DIRECTORIES
-        ${MY_COMMON_STATIC_INCLUDE_DIRECTORIES}
+        ${MY_COMMON_PRIVATE_OBJECT_INCLUDE_DIRECTORIES}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_STATIC_BUILD_DEPENDENCIES}
+        ${MY_COMMON_PRIVATE_OBJECT_BUILD_DEPENDENCIES}
 )
 
 # Unset these variables, as they are no longer needed.
-unset(MY_COMMON_STATIC_FILES_CMAKE)
-unset(MY_COMMON_STATIC_TARGET_PROPERTIES)
-unset(MY_COMMON_STATIC_INCLUDE_DIRECTORIES)
-unset(MY_COMMON_STATIC_BUILD_DEPENDENCIES)
+unset(MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE)
+unset(MY_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES)
+unset(MY_COMMON_PRIVATE_OBJECT_INCLUDE_DIRECTORIES)
+unset(MY_COMMON_PRIVATE_OBJECT_BUILD_DEPENDENCIES)
 
 # These variables contain common items that are used in all unified, server, and client versions of our module target.
 
@@ -168,7 +168,7 @@ set(MY_COMMON_MODULE_BUILD_DEPENDENCIES
 
 # Add our module targets.
 
-# Here add ${gem_name} target, it depends on the ".Static" library and Public API interface
+# Here add ${gem_name} target, it depends on the ".Private.Object" library and ".API" interface
 
 ly_add_target(
     NAME ${gem_name} ${PAL_TRAIT_MONOLITHIC_DRIVEN_MODULE_TYPE}
@@ -182,7 +182,7 @@ ly_add_target(
         PUBLIC
             Gem::${gem_name}.API
         PRIVATE
-            Gem::${gem_name}.Unified.Static
+            Gem::${gem_name}.Unified.Private.Object
 )
 
 ly_add_target(
@@ -197,7 +197,7 @@ ly_add_target(
         PUBLIC
             Gem::${gem_name}.Server.API
         PRIVATE
-            Gem::${gem_name}.Server.Static
+            Gem::${gem_name}.Server.Private.Object
 )
 
 ly_add_target(
@@ -212,7 +212,7 @@ ly_add_target(
         PUBLIC
             Gem::${gem_name}.Client.API
         PRIVATE
-            Gem::${gem_name}.Client.Static
+            Gem::${gem_name}.Client.Private.Object
 )
 
 # Unset these variables, as they are no longer needed.
@@ -266,11 +266,11 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
                 AZ::AzToolsFramework
     )
 
-    # The ${gem_name}.Editor.Static target is an internal target
+    # The ${gem_name}.Editor.Private.Object target is an internal target
     # which is only to be used by this gems CMakeLists.txt and any subdirectories
     # Other gems should not use this target
     ly_add_target(
-        NAME ${gem_name}.Editor.Static STATIC
+        NAME ${gem_name}.Editor.Private.Object STATIC
         NAMESPACE Gem
         FILES_CMAKE
             o3deutils_misc_editor_private_files.cmake
@@ -283,7 +283,7 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         BUILD_DEPENDENCIES
             PUBLIC
                 AZ::AzToolsFramework
-                ${gem_name}.Unified.Static
+                ${gem_name}.Unified.Private.Object
     )
 
     ly_add_target(
@@ -301,7 +301,7 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
             PUBLIC
                 Gem::${gem_name}.Editor.API
             PRIVATE
-                Gem::${gem_name}.Editor.Static
+                Gem::${gem_name}.Editor.Private.Object
     )
 
     # Include the gem name into the Editor Module source file
@@ -339,7 +339,7 @@ endif()
 if(PAL_TRAIT_BUILD_TESTS_SUPPORTED)
     # We globally support tests, see if we support tests on this platform for ${gem_name}.Tests
     if(PAL_TRAIT_O3DEUTILS_MISC_TEST_SUPPORTED)
-        # We support ${gem_name}.Tests on this platform, add dependency on the ".Static" target
+        # We support ${gem_name}.Tests on this platform, add dependency on the ".Private.Object" target
         ly_add_target(
             NAME ${gem_name}.Tests ${PAL_TRAIT_TEST_TARGET_TYPE}
             NAMESPACE Gem
@@ -354,7 +354,7 @@ if(PAL_TRAIT_BUILD_TESTS_SUPPORTED)
                 PRIVATE
                     AZ::AzTest
                     AZ::AzFramework
-                    Gem::${gem_name}.Unified.Static
+                    Gem::${gem_name}.Unified.Private.Object
         )
 
         # Add ${gem_name}.Tests to googletest
@@ -368,7 +368,7 @@ if(PAL_TRAIT_BUILD_TESTS_SUPPORTED)
         # We are a host platform, see if Editor tests are supported on this platform
         if(PAL_TRAIT_O3DEUTILS_MISC_EDITOR_TEST_SUPPORTED)
             # We support ${gem_name}.Editor.Tests on this platform, add ${gem_name}.Editor.Tests target which depends on
-            # private ${gem_name}.Editor.Static target
+            # private ${gem_name}.Editor.Private.Object target
             ly_add_target(
                 NAME ${gem_name}.Editor.Tests ${PAL_TRAIT_TEST_TARGET_TYPE}
                 NAMESPACE Gem
@@ -382,7 +382,7 @@ if(PAL_TRAIT_BUILD_TESTS_SUPPORTED)
                 BUILD_DEPENDENCIES
                     PRIVATE
                         AZ::AzTest
-                        Gem::${gem_name}.Editor.Static
+                        Gem::${gem_name}.Editor.Private.Object
             )
 
             # Add ${gem_name}.Editor.Tests to googletest
