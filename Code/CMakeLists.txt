@@ -17,178 +17,147 @@ if(NOT PAL_TRAIT_O3DEUTILS_MISC_SUPPORTED)
     return()
 endif()
 
-set(MY_COMMON_API_FILES_CMAKE
+# Define common data used by all unified, server, and client versions of our ".API" target.
+
+set(${gem_name}_COMMON_API_FILES_CMAKE
     o3deutils_misc_api_files.cmake
     ${pal_dir}/o3deutils_misc_api_files.cmake
 )
 
-set(MY_COMMON_API_INCLUDE_DIRECTORIES
-    INTERFACE
-        Include
+ly_add_target(
+    NAME ${gem_name}.Common.API INTERFACE
+    NAMESPACE Gem
+    FILES_CMAKE
+        ${${gem_name}_COMMON_API_FILES_CMAKE}
+    INCLUDE_DIRECTORIES
+        INTERFACE
+            Include
+    BUILD_DEPENDENCIES
+        INTERFACE
+            AZ::AzCore
 )
 
-set(MY_COMMON_API_BUILD_DEPENDENCIES
-    INTERFACE
-        AZ::AzCore
-)
-
-# Add our API targets.
-
-# The ".API" target declares the common interface that users of this gem should depend on in their targets
+# Add our actual ".API" targets.
 
 ly_add_target(
     NAME ${gem_name}.API INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_API_FILES_CMAKE}
-    INCLUDE_DIRECTORIES
-        ${MY_COMMON_API_INCLUDE_DIRECTORIES}
+        ${${gem_name}_COMMON_API_FILES_CMAKE}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_API_BUILD_DEPENDENCIES}
+        INTERFACE
+            Gem::${gem_name}.Common.API
 )
 
 ly_add_target(
     NAME ${gem_name}.Server.API INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_API_FILES_CMAKE}
-    INCLUDE_DIRECTORIES
-        ${MY_COMMON_API_INCLUDE_DIRECTORIES}
+        ${${gem_name}_COMMON_API_FILES_CMAKE}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_API_BUILD_DEPENDENCIES}
+        INTERFACE
+            Gem::${gem_name}.Common.API
 )
 
 ly_add_target(
     NAME ${gem_name}.Client.API INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_API_FILES_CMAKE}
-    INCLUDE_DIRECTORIES
-        ${MY_COMMON_API_INCLUDE_DIRECTORIES}
+        ${${gem_name}_COMMON_API_FILES_CMAKE}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_API_BUILD_DEPENDENCIES}
+        INTERFACE
+            Gem::${gem_name}.Common.API
 )
 
-# Unset these variables, as they are no longer needed.
-unset(MY_COMMON_API_FILES_CMAKE)
-unset(MY_COMMON_API_INCLUDE_DIRECTORIES)
-unset(MY_COMMON_API_BUILD_DEPENDENCIES)
+# Define common data used by all unified, server, and client versions of our ".Private.Object" target.
 
-# These variables contain common items that are used in all unified, server, and client versions of our ".Private.Object" target.
-
-set(MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE
+set(${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE
     o3deutils_misc_private_files.cmake
     ${pal_dir}/o3deutils_misc_private_files.cmake
 )
 
-set(MY_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES
+set(${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES
     O3DE_PRIVATE_TARGET TRUE
 )
 
-set(MY_COMMON_PRIVATE_OBJECT_INCLUDE_DIRECTORIES
-    INTERFACE
-        .
-)
-
-set(MY_COMMON_PRIVATE_OBJECT_BUILD_DEPENDENCIES
-    INTERFACE
-        AZ::AzCore
-        AZ::AzFramework
-        Legacy::CryCommon
+ly_add_target(
+    NAME ${gem_name}.Common.Private.Object INTERFACE
+    NAMESPACE Gem
+    FILES_CMAKE
+        ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
+    COMPILE_DEFINITIONS
+        INTERFACE
+            O3DEUTILS_MISC_EXPORTS
+    TARGET_PROPERTIES
+        ${${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
+    INCLUDE_DIRECTORIES
+        INTERFACE
+            .
+    BUILD_DEPENDENCIES
+        INTERFACE
+            AZ::AzCore
+            AZ::AzFramework
+            Legacy::CryCommon
 )
 
 # Add our ".Private.Object" targets. @Christian: TODO: [todo][techdebt][cmake][multiplayer] Support multiplayer compile definitions (`AZ_TRAIT_CLIENT` and `AZ_TRAIT_SERVER`) without needing to depend on the multiplayer gem?
-
-# The ".Private.Object" target is an internal target
-# It should not be used outside of this Gems CMakeLists.txt
 
 ly_add_target(
     NAME ${gem_name}.Unified.Private.Object INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
+        ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
     TARGET_PROPERTIES
-        ${MY_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
-    INCLUDE_DIRECTORIES
-        ${MY_COMMON_PRIVATE_OBJECT_INCLUDE_DIRECTORIES}
+        ${${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_PRIVATE_OBJECT_BUILD_DEPENDENCIES}
         INTERFACE
-            ${gem_name}.API
+            Gem::${gem_name}.Common.Private.Object
+            Gem::${gem_name}.API
 )
 
 ly_add_target(
     NAME ${gem_name}.Server.Private.Object INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
+        ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
     TARGET_PROPERTIES
-        ${MY_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
-    INCLUDE_DIRECTORIES
-        ${MY_COMMON_PRIVATE_OBJECT_INCLUDE_DIRECTORIES}
+        ${${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_PRIVATE_OBJECT_BUILD_DEPENDENCIES}
         INTERFACE
-            ${gem_name}.Server.API
+            Gem::${gem_name}.Common.Private.Object
+            Gem::${gem_name}.Server.API
 )
 
 ly_add_target(
     NAME ${gem_name}.Client.Private.Object INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
+        ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
     TARGET_PROPERTIES
-        ${MY_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
-    INCLUDE_DIRECTORIES
-        ${MY_COMMON_PRIVATE_OBJECT_INCLUDE_DIRECTORIES}
+        ${${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_PRIVATE_OBJECT_BUILD_DEPENDENCIES}
         INTERFACE
-            ${gem_name}.Client.API
+            Gem::${gem_name}.Common.Private.Object
+            Gem::${gem_name}.Client.API
 )
 
-# These variables contain common items that are used in all unified, server, and client versions of our module target.
+# Define common data used by all unified, server, and client versions of our main gem target.
 
-set(MY_COMMON_MODULE_FILES_CMAKE
-    ${MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
+set(${gem_name}_COMMON_FILES_CMAKE
+    ${${gem_name}_COMMON_API_FILES_CMAKE}
+    ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
     o3deutils_misc_shared_files.cmake
     ${pal_dir}/o3deutils_misc_shared_files.cmake
 )
 
-set(MY_COMMON_MODULE_COMPILE_DEFINITIONS
-    PRIVATE
-        O3DEUTILS_MISC_EXPORTS
-)
-
-set(MY_COMMON_MODULE_INCLUDE_DIRECTORIES
-    INTERFACE
-        Include
-)
-
-set(MY_COMMON_MODULE_BUILD_DEPENDENCIES
-)
-
-# Unset these variables, as they are no longer needed.
-unset(MY_COMMON_PRIVATE_OBJECT_FILES_CMAKE)
-unset(MY_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES)
-unset(MY_COMMON_PRIVATE_OBJECT_INCLUDE_DIRECTORIES)
-unset(MY_COMMON_PRIVATE_OBJECT_BUILD_DEPENDENCIES)
-
-# Add our module targets.
-
-# Here add ${gem_name} target, it depends on the ".Private.Object" library and ".API" interface
+# Add our main gem targets. These depend on their corresponding ".Private.Object" and ".API" targets.
 
 ly_add_target(
     NAME ${gem_name} ${PAL_TRAIT_MONOLITHIC_DRIVEN_LIBRARY_TYPE}
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_MODULE_FILES_CMAKE}
-    COMPILE_DEFINITIONS
-        ${MY_COMMON_MODULE_COMPILE_DEFINITIONS}
-    INCLUDE_DIRECTORIES
-        ${MY_COMMON_MODULE_INCLUDE_DIRECTORIES}
+        ${${gem_name}_COMMON_FILES_CMAKE}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_MODULE_BUILD_DEPENDENCIES}
         PUBLIC
             Gem::${gem_name}.API
         PRIVATE
@@ -199,13 +168,8 @@ ly_add_target(
     NAME ${gem_name}.Server ${PAL_TRAIT_MONOLITHIC_DRIVEN_LIBRARY_TYPE}
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_MODULE_FILES_CMAKE}
-    COMPILE_DEFINITIONS
-        ${MY_COMMON_MODULE_COMPILE_DEFINITIONS}
-    INCLUDE_DIRECTORIES
-        ${MY_COMMON_MODULE_INCLUDE_DIRECTORIES}
+        ${${gem_name}_COMMON_FILES_CMAKE}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_MODULE_BUILD_DEPENDENCIES}
         PUBLIC
             Gem::${gem_name}.Server.API
         PRIVATE
@@ -216,13 +180,8 @@ ly_add_target(
     NAME ${gem_name}.Client ${PAL_TRAIT_MONOLITHIC_DRIVEN_LIBRARY_TYPE}
     NAMESPACE Gem
     FILES_CMAKE
-        ${MY_COMMON_MODULE_FILES_CMAKE}
-    COMPILE_DEFINITIONS
-        ${MY_COMMON_MODULE_COMPILE_DEFINITIONS}
-    INCLUDE_DIRECTORIES
-        ${MY_COMMON_MODULE_INCLUDE_DIRECTORIES}
+        ${${gem_name}_COMMON_FILES_CMAKE}
     BUILD_DEPENDENCIES
-        ${MY_COMMON_MODULE_BUILD_DEPENDENCIES}
         PUBLIC
             Gem::${gem_name}.Client.API
         PRIVATE
@@ -230,10 +189,14 @@ ly_add_target(
 )
 
 # Unset these variables, as they are no longer needed.
-unset(MY_COMMON_MODULE_FILES_CMAKE)
-unset(MY_COMMON_MODULE_COMPILE_DEFINITIONS)
-unset(MY_COMMON_MODULE_INCLUDE_DIRECTORIES)
-unset(MY_COMMON_MODULE_BUILD_DEPENDENCIES)
+unset(${gem_name}_COMMON_API_FILES_CMAKE)
+
+# Unset these variables, as they are no longer needed.
+unset(${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE)
+unset(${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES)
+
+# Unset these variables, as they are no longer needed.
+unset(${gem_name}_COMMON_FILES_CMAKE)
 
 # Include the gem name into the Client Module source file
 # for use with the AZ_DECLARE_MODULE_CLASS macro
@@ -266,12 +229,6 @@ o3de_add_variant_dependencies_for_gem_dependencies(GEM_NAME ${gem_name} VARIANTS
 
 # If we are on a host platform, we want to add the host tools targets like the ${gem_name}.Editor MODULE target
 if(PAL_TRAIT_BUILD_HOST_TOOLS)
-
-    set(MY_COMMON_EDITOR_MODULE_COMPILE_DEFINITIONS
-        PRIVATE
-            O3DEUTILS_MISC_EXPORTS
-    )
-
     # The ${gem_name}.Editor.API target can be used by other gems that want to interact with the ${gem_name}.Editor module
     ly_add_target(
         NAME ${gem_name}.Editor.API INTERFACE
@@ -314,7 +271,8 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         FILES_CMAKE
             o3deutils_misc_editor_shared_files.cmake
         COMPILE_DEFINITIONS
-            ${MY_COMMON_EDITOR_MODULE_COMPILE_DEFINITIONS}
+            PRIVATE
+                O3DEUTILS_MISC_EXPORTS
         INCLUDE_DIRECTORIES
             PRIVATE
                 .
@@ -326,9 +284,6 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
             PRIVATE
                 Gem::${gem_name}.Editor.Private.Object
     )
-
-    # Unset these variables, as they are no longer needed.
-    unset(MY_COMMON_EDITOR_MODULE_COMPILE_DEFINITIONS)
 
     # Include the gem name into the Editor Module source file
     # for use with the AZ_DECLARE_MODULE_CLASS macro
