@@ -40,7 +40,7 @@ ly_add_target(
 # Add our actual ".API" targets.
 
 ly_add_target(
-    NAME ${gem_name}.API INTERFACE
+    NAME ${gem_name}.Unified.API INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_API_FILES_CMAKE}
@@ -50,7 +50,7 @@ ly_add_target(
 )
 
 ly_add_target(
-    NAME ${gem_name}.Server.API INTERFACE
+    NAME ${gem_name}.Servers.API INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_API_FILES_CMAKE}
@@ -60,7 +60,7 @@ ly_add_target(
 )
 
 ly_add_target(
-    NAME ${gem_name}.Client.API INTERFACE
+    NAME ${gem_name}.Clients.API INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_API_FILES_CMAKE}
@@ -112,11 +112,11 @@ ly_add_target(
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.Private.Object
-            Gem::${gem_name}.API
+            Gem::${gem_name}.Unified.API
 )
 
 ly_add_target(
-    NAME ${gem_name}.Server.Private.Object INTERFACE
+    NAME ${gem_name}.Servers.Private.Object INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
@@ -125,11 +125,11 @@ ly_add_target(
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.Private.Object
-            Gem::${gem_name}.Server.API
+            Gem::${gem_name}.Servers.API
 )
 
 ly_add_target(
-    NAME ${gem_name}.Client.Private.Object INTERFACE
+    NAME ${gem_name}.Clients.Private.Object INTERFACE
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
@@ -138,7 +138,7 @@ ly_add_target(
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.Private.Object
-            Gem::${gem_name}.Client.API
+            Gem::${gem_name}.Clients.API
 )
 
 # Define common data used by all unified, server, and client versions of our main gem target.
@@ -153,39 +153,39 @@ set(${gem_name}_COMMON_FILES_CMAKE
 # Add our main gem targets. These depend on their corresponding ".Private.Object" and ".API" targets.
 
 ly_add_target(
-    NAME ${gem_name} ${PAL_TRAIT_MONOLITHIC_DRIVEN_LIBRARY_TYPE}
+    NAME ${gem_name}.Unified ${PAL_TRAIT_MONOLITHIC_DRIVEN_LIBRARY_TYPE}
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_FILES_CMAKE}
     BUILD_DEPENDENCIES
         PUBLIC
-            Gem::${gem_name}.API
+            Gem::${gem_name}.Unified.API
         PRIVATE
             Gem::${gem_name}.Unified.Private.Object
 )
 
 ly_add_target(
-    NAME ${gem_name}.Server ${PAL_TRAIT_MONOLITHIC_DRIVEN_LIBRARY_TYPE}
+    NAME ${gem_name}.Servers ${PAL_TRAIT_MONOLITHIC_DRIVEN_LIBRARY_TYPE}
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_FILES_CMAKE}
     BUILD_DEPENDENCIES
         PUBLIC
-            Gem::${gem_name}.Server.API
+            Gem::${gem_name}.Servers.API
         PRIVATE
-            Gem::${gem_name}.Server.Private.Object
+            Gem::${gem_name}.Servers.Private.Object
 )
 
 ly_add_target(
-    NAME ${gem_name}.Client ${PAL_TRAIT_MONOLITHIC_DRIVEN_LIBRARY_TYPE}
+    NAME ${gem_name}.Clients ${PAL_TRAIT_MONOLITHIC_DRIVEN_LIBRARY_TYPE}
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_FILES_CMAKE}
     BUILD_DEPENDENCIES
         PUBLIC
-            Gem::${gem_name}.Client.API
+            Gem::${gem_name}.Clients.API
         PRIVATE
-            Gem::${gem_name}.Client.Private.Object
+            Gem::${gem_name}.Clients.Private.Object
 )
 
 # Unset these variables, as they are no longer needed.
@@ -210,18 +210,6 @@ PROPERTY COMPILE_DEFINITIONS
     VALUES
         O3DE_GEM_NAME=${gem_name}
         O3DE_GEM_VERSION=${gem_version})
-
-# By default, we will specify that the above target ${gem_name} would be used by
-# Client and Server type targets when this gem is enabled.  If you don't want it
-# active in Clients or Servers by default, delete one of both of the following lines:
-ly_create_alias(NAME ${gem_name}.Unified NAMESPACE Gem TARGETS Gem::${gem_name})
-ly_create_alias(NAME ${gem_name}.Servers NAMESPACE Gem TARGETS Gem::${gem_name}.Server)
-ly_create_alias(NAME ${gem_name}.Clients NAMESPACE Gem TARGETS Gem::${gem_name}.Client)
-
-# For the Client and Server variants of ${gem_name} Gem, an alias to the ".API" target will be made
-ly_create_alias(NAME ${gem_name}.Unified.API NAMESPACE Gem TARGETS Gem::${gem_name}.API)
-ly_create_alias(NAME ${gem_name}.Servers.API NAMESPACE Gem TARGETS Gem::${gem_name}.Server.API)
-ly_create_alias(NAME ${gem_name}.Clients.API NAMESPACE Gem TARGETS Gem::${gem_name}.Client.API)
 
 # Add in CMake dependencies for each gem dependency listed in this gem's gem.json file
 # for the Clients, Servers, Unified gem variants
