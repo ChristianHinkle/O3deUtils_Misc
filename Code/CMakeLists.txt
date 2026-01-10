@@ -29,6 +29,8 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_API_FILES_CMAKE}
+    TARGET_PROPERTIES
+        O3DE_PRIVATE_TARGET TRUE
     INCLUDE_DIRECTORIES
         INTERFACE
             Include
@@ -89,6 +91,7 @@ ly_add_target(
         INTERFACE
             O3DEUTILS_MISC_EXPORTS
     TARGET_PROPERTIES
+        O3DE_PRIVATE_TARGET TRUE
         ${${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     INCLUDE_DIRECTORIES
         INTERFACE
@@ -141,6 +144,9 @@ ly_add_target(
             Gem::${gem_name}.Clients.API
 )
 
+# Unset these variables, as they are no longer needed.
+unset(${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES)
+
 # Define common data used by all unified, server, and client versions of our main gem target.
 
 set(${gem_name}_COMMON_FILES_CMAKE
@@ -190,12 +196,7 @@ ly_add_target(
 
 # Unset these variables, as they are no longer needed.
 unset(${gem_name}_COMMON_API_FILES_CMAKE)
-
-# Unset these variables, as they are no longer needed.
 unset(${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE)
-unset(${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES)
-
-# Unset these variables, as they are no longer needed.
 unset(${gem_name}_COMMON_FILES_CMAKE)
 
 # Include the gem name into the Client Module source file
