@@ -20,8 +20,8 @@ endif()
 # Define common data used by all unified, server, and client versions of our ".API" target.
 
 set(${gem_name}_COMMON_API_FILES_CMAKE
-    o3deutils_misc_files_api.cmake
-    ${pal_dir}/o3deutils_misc_files_api.cmake
+    o3deutils_misc_common_api_files.cmake
+    ${pal_dir}/o3deutils_misc_common_api_files.cmake
 )
 
 ly_add_target(
@@ -74,8 +74,8 @@ ly_add_target(
 # Define common data used by all unified, server, and client versions of our ".Private.Object" target.
 
 set(${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE
-    o3deutils_misc_files_private.cmake
-    ${pal_dir}/o3deutils_misc_files_private.cmake
+    o3deutils_misc_common_private_files.cmake
+    ${pal_dir}/o3deutils_misc_common_private_files.cmake
 )
 
 set(${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES
@@ -152,8 +152,8 @@ unset(${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES)
 set(${gem_name}_COMMON_FILES_CMAKE
     ${${gem_name}_COMMON_API_FILES_CMAKE}
     ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
-    o3deutils_misc_files_shared.cmake
-    ${pal_dir}/o3deutils_misc_files_shared.cmake
+    o3deutils_misc_common_shared_files.cmake
+    ${pal_dir}/o3deutils_misc_common_shared_files.cmake
 )
 
 # Add our main gem targets. These depend on their corresponding ".Private.Object" and ".API" targets.
@@ -223,8 +223,8 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         NAME ${gem_name}.Editor.API INTERFACE
         NAMESPACE Gem
         FILES_CMAKE
-            o3deutils_misc_editor_files_api.cmake
-            ${pal_dir}/o3deutils_misc_editor_files_api.cmake
+            o3deutils_misc_editor_api_files.cmake
+            ${pal_dir}/o3deutils_misc_editor_api_files.cmake
         INCLUDE_DIRECTORIES
             INTERFACE
                 Include
@@ -240,7 +240,7 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         NAME ${gem_name}.Editor.Private.Object STATIC
         NAMESPACE Gem
         FILES_CMAKE
-            o3deutils_misc_editor_files_private.cmake
+            o3deutils_misc_editor_private_files.cmake
         TARGET_PROPERTIES
             O3DE_PRIVATE_TARGET TRUE
         INCLUDE_DIRECTORIES
@@ -258,7 +258,7 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         NAMESPACE Gem
         AUTOMOC
         FILES_CMAKE
-            o3deutils_misc_editor_files_shared.cmake
+            o3deutils_misc_editor_shared_files.cmake
         COMPILE_DEFINITIONS
             PRIVATE
                 O3DEUTILS_MISC_EXPORTS
