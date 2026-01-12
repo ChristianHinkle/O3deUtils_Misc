@@ -237,18 +237,17 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
     # which is only to be used by this gems CMakeLists.txt and any subdirectories
     # Other gems should not use this target
     ly_add_target(
-        NAME ${gem_name}.Tools.Private.Object STATIC
+        NAME ${gem_name}.Tools.Private.Object INTERFACE
         NAMESPACE Gem
         FILES_CMAKE
             o3deutils_misc_tools_private_files.cmake
         TARGET_PROPERTIES
             O3DE_PRIVATE_TARGET TRUE
         INCLUDE_DIRECTORIES
-            PRIVATE
-                Include
+            INTERFACE
                 .
         BUILD_DEPENDENCIES
-            PUBLIC
+            INTERFACE
                 AZ::AzToolsFramework
                 Gem::${gem_name}.Unified.Private.Object
     )
@@ -262,11 +261,6 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         COMPILE_DEFINITIONS
             PRIVATE
                 O3DEUTILS_MISC_EXPORTS
-        INCLUDE_DIRECTORIES
-            PRIVATE
-                .
-            PUBLIC
-                Include
         BUILD_DEPENDENCIES
             PUBLIC
                 Gem::${gem_name}.Tools.API
