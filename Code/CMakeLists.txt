@@ -249,7 +249,7 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         BUILD_DEPENDENCIES
             INTERFACE
                 AZ::AzToolsFramework
-                Gem::${gem_name}.Unified.Private.Object
+                Gem::${gem_name}.Unified
     )
 
     ly_add_target(
@@ -257,10 +257,9 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         NAMESPACE Gem
         AUTOMOC
         FILES_CMAKE
+            o3deutils_misc_tools_api_files.cmake
+            o3deutils_misc_tools_private_files.cmake
             o3deutils_misc_tools_shared_files.cmake
-        COMPILE_DEFINITIONS
-            PRIVATE
-                O3DEUTILS_MISC_EXPORTS
         BUILD_DEPENDENCIES
             PUBLIC
                 Gem::${gem_name}.Tools.API
