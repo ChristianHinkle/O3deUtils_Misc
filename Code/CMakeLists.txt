@@ -46,10 +46,12 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_API_FILES_CMAKE}
+        o3deutils_misc_client_api_files.cmake
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.API
             Gem::Multiplayer.Unified
+            Gem::LyShine.Unified.API
 )
 
 ly_add_target(
@@ -68,10 +70,12 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_API_FILES_CMAKE}
+        o3deutils_misc_client_api_files.cmake
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.API
             Gem::Multiplayer.Clients
+            Gem::LyShine.Clients.API
 )
 
 # Define common data used by all unified, server, and client versions of our ".Private.Object" target.
@@ -113,6 +117,7 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
+        o3deutils_misc_client_private_files.cmake
     TARGET_PROPERTIES
         ${${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     BUILD_DEPENDENCIES
@@ -120,6 +125,7 @@ ly_add_target(
             Gem::${gem_name}.Common.Private.Object
             Gem::${gem_name}.Unified.API
             Gem::Multiplayer.Unified.Static
+            Gem::LyShine.Unified
 )
 
 ly_add_target(
@@ -141,6 +147,7 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
+        o3deutils_misc_client_private_files.cmake
     TARGET_PROPERTIES
         ${${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     BUILD_DEPENDENCIES
@@ -148,6 +155,7 @@ ly_add_target(
             Gem::${gem_name}.Common.Private.Object
             Gem::${gem_name}.Clients.API
             Gem::Multiplayer.Client.Static
+            Gem::LyShine.Clients
 )
 
 # Unset these variables, as they are no longer needed.
@@ -169,6 +177,8 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_FILES_CMAKE}
+        o3deutils_misc_client_api_files.cmake
+        o3deutils_misc_client_private_files.cmake
     BUILD_DEPENDENCIES
         PUBLIC
             Gem::${gem_name}.Unified.API
@@ -193,6 +203,8 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_FILES_CMAKE}
+        o3deutils_misc_client_api_files.cmake
+        o3deutils_misc_client_private_files.cmake
     BUILD_DEPENDENCIES
         PUBLIC
             Gem::${gem_name}.Clients.API
