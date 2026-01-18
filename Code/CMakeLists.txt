@@ -49,6 +49,7 @@ ly_add_target(
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.API
+            Gem::Multiplayer.Unified
 )
 
 ly_add_target(
@@ -59,6 +60,7 @@ ly_add_target(
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.API
+            Gem::Multiplayer.Servers
 )
 
 ly_add_target(
@@ -69,6 +71,7 @@ ly_add_target(
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.API
+            Gem::Multiplayer.Clients
 )
 
 # Define common data used by all unified, server, and client versions of our ".Private.Object" target.
@@ -116,6 +119,7 @@ ly_add_target(
         INTERFACE
             Gem::${gem_name}.Common.Private.Object
             Gem::${gem_name}.Unified.API
+            Gem::Multiplayer.Unified.Static
 )
 
 ly_add_target(
@@ -129,6 +133,7 @@ ly_add_target(
         INTERFACE
             Gem::${gem_name}.Common.Private.Object
             Gem::${gem_name}.Servers.API
+            Gem::Multiplayer.Server.Static
 )
 
 ly_add_target(
@@ -142,6 +147,7 @@ ly_add_target(
         INTERFACE
             Gem::${gem_name}.Common.Private.Object
             Gem::${gem_name}.Clients.API
+            Gem::Multiplayer.Client.Static
 )
 
 # Unset these variables, as they are no longer needed.
