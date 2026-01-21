@@ -172,10 +172,11 @@ set(${gem_name}_COMMON_FILES_CMAKE
 )
 
 set(${gem_name}_COMMON_AUTOGEN_RULES
-    *.AutoComponent.xml,AutoComponent_Header.jinja,$path/$fileprefix.AutoComponent.h
-    *.AutoComponent.xml,AutoComponent_Source.jinja,$path/$fileprefix.AutoComponent.cpp
-    *.AutoComponent.xml,AutoComponentTypes_Header.jinja,$path/AutoComponentTypes.h
-    *.AutoComponent.xml,AutoComponentTypes_Source.jinja,$path/AutoComponentTypes.cpp
+    # @Christian TODO: [todo][cmake][auto-gen] List out the required multiplayer AutoGen rules here if we want
+    # to make multiplayer auto-components. Last time I tried this, it was a bit tricky because (1) I'd have to make
+    # the system component call `RegisterMultiplayerComponents` and we'd have to decide on whether we want the editor
+    # target to also do that or not, and (2) I was getting compiler errors because it seems like it would try to
+    # start building the C++ before the AutoGen custom command was run for certain targets, but Idk exactly.
 )
 
 # Add our main gem targets. These depend on their corresponding ".Private.Object" and ".API" targets.
