@@ -2,8 +2,8 @@
 #include <Source/O3deUtils_MiscSystemComponent.h>
 
 #include <O3deUtils_Misc/O3deUtils_MiscTypeIds.h>
-
 #include <AzCore/Serialization/SerializeContext.h>
+#include <Source/AutoGen/AutoComponentTypes.h>
 
 namespace O3deUtils_Misc
 {
@@ -62,6 +62,9 @@ namespace O3deUtils_Misc
     {
         O3deUtils_MiscRequestBus::Handler::BusConnect();
         AZ::TickBus::Handler::BusConnect();
+
+        // Register our auto-components.
+        RegisterMultiplayerComponents();
     }
 
     void O3deUtils_MiscSystemComponent::Deactivate()

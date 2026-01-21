@@ -1,10 +1,9 @@
 
 #include <Source/O3deUtils_MiscModuleInterface.h>
 #include <AzCore/Memory/Memory.h>
-
 #include <O3deUtils_Misc/O3deUtils_MiscTypeIds.h>
-
 #include <Source/O3deUtils_MiscSystemComponent.h>
+#include <Source/AutoGen/AutoComponentTypes.h>
 
 namespace O3deUtils_Misc
 {
@@ -22,6 +21,9 @@ namespace O3deUtils_Misc
         m_descriptors.insert(m_descriptors.end(), {
             O3deUtils_MiscSystemComponent::CreateDescriptor(),
             });
+
+        // Create descriptors for our auto-components. Important: These are supposed to be the last descriptors added.
+        CreateComponentDescriptors(m_descriptors);
     }
 
     AZ::ComponentTypeList O3deUtils_MiscModuleInterface::GetRequiredSystemComponents() const
