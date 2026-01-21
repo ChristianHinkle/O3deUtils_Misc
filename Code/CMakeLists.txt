@@ -168,6 +168,14 @@ set(${gem_name}_COMMON_FILES_CMAKE
     ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
     ${gem_name_lowercase}_common_shared_files.cmake
     ${pal_dir}/${gem_name_lowercase}_common_shared_files.cmake
+    ${gem_name_lowercase}_common_autogen_files.cmake
+)
+
+set(${gem_name}_COMMON_AUTOGEN_RULES
+    *.AutoComponent.xml,AutoComponent_Header.jinja,$path/$fileprefix.AutoComponent.h
+    *.AutoComponent.xml,AutoComponent_Source.jinja,$path/$fileprefix.AutoComponent.cpp
+    *.AutoComponent.xml,AutoComponentTypes_Header.jinja,$path/AutoComponentTypes.h
+    *.AutoComponent.xml,AutoComponentTypes_Source.jinja,$path/AutoComponentTypes.cpp
 )
 
 # Add our main gem targets. These depend on their corresponding ".Private.Object" and ".API" targets.
@@ -184,6 +192,8 @@ ly_add_target(
             Gem::${gem_name}.Unified.API
         PRIVATE
             Gem::${gem_name}.Unified.Private.Object
+    AUTOGEN_RULES
+        ${${gem_name}_COMMON_AUTOGEN_RULES}
 )
 
 ly_add_target(
@@ -196,6 +206,8 @@ ly_add_target(
             Gem::${gem_name}.Servers.API
         PRIVATE
             Gem::${gem_name}.Servers.Private.Object
+    AUTOGEN_RULES
+        ${${gem_name}_COMMON_AUTOGEN_RULES}
 )
 
 ly_add_target(
@@ -210,12 +222,15 @@ ly_add_target(
             Gem::${gem_name}.Clients.API
         PRIVATE
             Gem::${gem_name}.Clients.Private.Object
+    AUTOGEN_RULES
+        ${${gem_name}_COMMON_AUTOGEN_RULES}
 )
 
 # Unset these variables, as they are no longer needed.
 unset(${gem_name}_COMMON_API_FILES_CMAKE)
 unset(${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE)
 unset(${gem_name}_COMMON_FILES_CMAKE)
+unset(${gem_name}_COMMON_AUTOGEN_RULES)
 
 # Include the gem name into the Client Module source file
 # for use with the AZ_DECLARE_MODULE_CLASS macro
