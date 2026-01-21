@@ -229,6 +229,8 @@ ly_add_target(
 # Unset these variables, as they are no longer needed.
 unset(${gem_name}_COMMON_API_FILES_CMAKE)
 unset(${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE)
+unset(${gem_name}_COMMON_FILES_CMAKE)
+unset(${gem_name}_COMMON_AUTOGEN_RULES)
 
 # Include the gem name into the Client Module source file
 # for use with the AZ_DECLARE_MODULE_CLASS macro
@@ -288,10 +290,6 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         NAMESPACE Gem
         AUTOMOC
         FILES_CMAKE
-            # @Christian TODO: [todo][techdebt][auto-gen][editor] Since this editor target is using the AutoGen source files from
-            # the non-editor targets, it should probably be adding the rest of the source files from them. Ideally though, it shouldn't be
-            # using auto-gen if it doesn't need to. It depends on what the editor target is trying to do though.
-            ${gem_name_lowercase}_common_autogen_files.cmake
             ${gem_name_lowercase}_tools_api_files.cmake
             ${gem_name_lowercase}_tools_private_files.cmake
             ${gem_name_lowercase}_tools_shared_files.cmake
@@ -300,8 +298,6 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
                 Gem::${gem_name}.Tools.API
             PRIVATE
                 Gem::${gem_name}.Tools.Private.Object
-        AUTOGEN_RULES
-            ${${gem_name}_COMMON_AUTOGEN_RULES}
     )
 
     # Include the gem name into the Editor Module source file
@@ -324,9 +320,6 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
     # for the Tools and Builders gem variants
     o3de_add_variant_dependencies_for_gem_dependencies(GEM_NAME ${gem_name} VARIANTS Tools Builders)
 endif()
-
-unset(${gem_name}_COMMON_FILES_CMAKE)
-unset(${gem_name}_COMMON_AUTOGEN_RULES)
 
 ################################################################################
 # Tests
