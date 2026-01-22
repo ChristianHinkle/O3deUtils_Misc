@@ -14,7 +14,6 @@ namespace O3deUtils_Misc
         , public AZ::TickBus::Handler
     {
     public:
-        // @Christian: Note: [engine] This uses the `AZ_COMPONENT_DECL_API` macro from pending engine PR: https://github.com/o3de/o3de/pull/19485.
         AZ_COMPONENT_DECL_API(O3DEUTILS_MISC_API, O3deUtils_MiscSystemComponent);
 
         static void Reflect(AZ::ReflectContext* context);
