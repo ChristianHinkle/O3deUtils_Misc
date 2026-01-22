@@ -36,6 +36,9 @@ ly_add_target(
             Include
     BUILD_DEPENDENCIES
         INTERFACE
+            CppUtils::Core::Include
+            CppUtils::Misc::Include
+            CppUtils::StdReimpl::Include
             AZ::AzCore
 )
 
@@ -105,6 +108,9 @@ ly_add_target(
             .
     BUILD_DEPENDENCIES
         INTERFACE
+            CppUtils::Core::Static
+            CppUtils::Misc::Static
+            CppUtils::StdReimpl::Static
             AZ::AzCore
             AZ::AzFramework
             Legacy::CryCommon

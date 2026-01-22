@@ -7,7 +7,7 @@
     "origin": "",
     "origin_url": "",
     "type": "Code",
-    "summary": "",
+    "summary": "A library of misc utilities that may not be significant enough or planned-out enough to put into their own library yet.",
     "canonical_tags": [
         "Gem"
     ],
@@ -21,6 +21,7 @@
     "requirements": "",
     "documentation_url": "",
     "dependencies": [
+        "CppUtils"
     ],
     "repo_uri": "",
     "compatible_engines": [
