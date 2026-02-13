@@ -10,7 +10,7 @@
 #include <AzCore/Component/ComponentApplicationBus.h>
 #include <LyShine/Bus/UiCanvasManagerBus.h>
 
-namespace O3deUtils::CanvasUtils
+namespace O3deUtils
 {
     void UnloadCanvasIfStillActive(const AZ::EntityId& canvasEntityId)
     {
@@ -36,4 +36,4 @@ namespace O3deUtils::CanvasUtils
             &UiCanvasManagerInterface::UnloadCanvas,
             canvasEntityId);
     }
-} // namespace O3deUtils::CanvasUtils
+} // namespace O3deUtils

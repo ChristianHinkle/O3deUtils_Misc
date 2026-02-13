@@ -9,7 +9,7 @@
 #include <AzFramework/Spawnable/Spawnable.h>
 #include <Multiplayer/MultiplayerTypes.h>
 
-namespace O3deUtils::MultiplayerUtils
+namespace O3deUtils
 {
     Multiplayer::IMultiplayer& GetMultiplayerAsserted()
     {
@@ -115,4 +115,4 @@ namespace O3deUtils::MultiplayerUtils
             entityOffset
         };
     }
-} // namespace O3deUtils::MultiplayerUtils
+} // namespace O3deUtils

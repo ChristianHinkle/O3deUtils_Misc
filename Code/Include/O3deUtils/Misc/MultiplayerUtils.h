@@ -29,7 +29,7 @@ namespace Multiplayer
     enum class MultiplayerAgentType;
 }
 
-namespace O3deUtils::MultiplayerUtils
+namespace O3deUtils
 {
     //! @brief A version of `Multiplayer::GetMultiplayer` that returns a reference rather than a pointer.
     O3DEUTILS_MISC_API Multiplayer::IMultiplayer& GetMultiplayerAsserted();
@@ -59,6 +59,6 @@ namespace O3deUtils::MultiplayerUtils
     O3DEUTILS_MISC_API Multiplayer::PrefabEntityId MakePrefabEntityIdFromSpawnableAsset(
         const AZ::Data::Asset<AzFramework::Spawnable>& spawnableAsset,
         uint32_t entityOffset = Multiplayer::PrefabEntityId::AllIndices);
-} // namespace O3deUtils::MultiplayerUtils
+} // namespace O3deUtils
 
 #include <O3deUtils/Misc/MultiplayerUtils.inl>
