@@ -5,6 +5,9 @@
 #include <AzCore/Console/ILogger.h>
 #include <Multiplayer/IMultiplayer.h>
 #include <Multiplayer/Components/NetBindComponent.h>
+#include <AzCore/Asset/AssetCommon.h>
+#include <AzFramework/Spawnable/Spawnable.h>
+#include <Multiplayer/MultiplayerTypes.h>
 
 namespace O3deUtils::Misc::MultiplayerUtils
 {
@@ -22,31 +25,14 @@ namespace O3deUtils::Misc::MultiplayerUtils
         return *networkEntityManager;
     }
 
-    bool IsHosting()
+    bool IsHosting(Multiplayer::IMultiplayer& multiplayer)
     {
-        const Multiplayer::MultiplayerAgentType currentMultiplayerAgentType = GetMultiplayerAsserted().GetAgentType();
-
-        switch (currentMultiplayerAgentType)
-        {
-        case Multiplayer::MultiplayerAgentType::ClientServer:
-        case Multiplayer::MultiplayerAgentType::DedicatedServer:
-            return true;
-        }
-
-        return false;
+        return IsAgentTypeHosting(multiplayer.GetAgentType());
     }
 
-    bool IsClient()
+    bool IsClient(Multiplayer::IMultiplayer& multiplayer)
     {
-        const Multiplayer::MultiplayerAgentType currentMultiplayerAgentType = GetMultiplayerAsserted().GetAgentType();
-
-        switch (currentMultiplayerAgentType)
-        {
-        case Multiplayer::MultiplayerAgentType::Client:
-            return true;
-        }
-
-        return false;
+        return IsAgentTypeClient(multiplayer.GetAgentType());
     }
 
     void PerformHostCommand()
@@ -85,5 +71,48 @@ namespace O3deUtils::Misc::MultiplayerUtils
         Multiplayer::NetBindComponent& netBindComponent = *netBindComponentPtr;
 
         return netBindComponent;
+    }
+
+    Multiplayer::PrefabEntityId MakeSinglePrefabEntityIdFromSpawnableAsset(const AZ::Data::Asset<AzFramework::Spawnable>& spawnableAsset)
+    {
+        const AZStd::size_t numEntitiesInPrefab = spawnableAsset ? spawnableAsset->GetEntities().size() : 0u;
+        if (numEntitiesInPrefab > 2u)
+        {
+            AZStd::fixed_string<256> logString;
+
+            logString += '`';
+            logString += __func__;
+            logString += "`: ";
+            logString += "Prefab '";
+            logString += spawnableAsset.GetHint();
+            logString += "' has multiple entities. Only the first one will be used.";
+            logString += ' ';
+            logString += "Size of entity list: `";
+
+            {
+                AZStd::fixed_string<32> entityIdString;
+                AZStd::to_string(entityIdString, numEntitiesInPrefab);
+
+                logString += entityIdString;
+            }
+
+            logString += "`.";
+            logString += ' ';
+            logString += "Two is the expected value for that array.";
+
+            AZLOG_WARN(logString.data());
+        }
+
+        // Use the first entity (ignoring the root) from the prefab.
+        constexpr uint32_t prefabEntityOffset = 1u;
+        return MakePrefabEntityIdFromSpawnableAsset(spawnableAsset, prefabEntityOffset);
+    }
+
+    Multiplayer::PrefabEntityId MakePrefabEntityIdFromSpawnableAsset(const AZ::Data::Asset<AzFramework::Spawnable>& spawnableAsset, uint32_t entityOffset)
+    {
+        return Multiplayer::PrefabEntityId{
+            AZ::Name{spawnableAsset.GetHint()},
+            entityOffset
+        };
     }
 } // namespace O3deUtils::Misc::MultiplayerUtils
