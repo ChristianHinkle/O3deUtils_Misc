@@ -8,7 +8,7 @@
 #include <CryCommon/ILevelSystem.h>
 #include <AzCore/Console/IConsole.h>
 
-namespace O3deUtils::Misc::LevelSystemUtils
+namespace O3deUtils::LevelSystemUtils
 {
     void TryLoadLevel(const AZStd::string_view& levelName)
     {
@@ -56,4 +56,4 @@ namespace O3deUtils::Misc::LevelSystemUtils
 
         console->PerformCommand(consoleCommand.data());
     }
-} // namespace O3deUtils::Misc::LevelSystemUtils
+} // namespace O3deUtils::LevelSystemUtils
