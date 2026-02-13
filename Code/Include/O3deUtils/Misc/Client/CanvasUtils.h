@@ -5,7 +5,7 @@
 #error "This file assumes it's being used for client code."
 #endif // #if !AZ_TRAIT_CLIENT
 
-#include <O3deUtils_Misc/O3deUtils_MiscConfiguration.h>
+#include <O3deUtils/Misc/O3deUtils_MiscConfiguration.h>
 
 namespace AZ
 {

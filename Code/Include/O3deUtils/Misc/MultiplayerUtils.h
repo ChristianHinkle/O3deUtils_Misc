@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <O3deUtils_Misc/O3deUtils_MiscConfiguration.h>
+#include <O3deUtils/Misc/O3deUtils_MiscConfiguration.h>
 #include <Multiplayer/MultiplayerTypes.h>
 
 namespace AZ
@@ -61,4 +61,4 @@ namespace O3deUtils::Misc::MultiplayerUtils
         uint32_t entityOffset = Multiplayer::PrefabEntityId::AllIndices);
 } // namespace O3deUtils::Misc::MultiplayerUtils
 
-#include <O3deUtils_Misc/MultiplayerUtils.inl>
+#include <O3deUtils/Misc/MultiplayerUtils.inl>

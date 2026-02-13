@@ -1,4 +1,4 @@
 
 set(FILES
-    Include/O3deUtils_Misc/Client/CanvasUtils.h
+    Include/O3deUtils/Misc/Client/CanvasUtils.h
 )

@@ -2,7 +2,7 @@
 #pragma once
 
 #include <AzCore/std/string/string_view.h>
-#include <O3deUtils_Misc/O3deUtils_MiscConfiguration.h>
+#include <O3deUtils/Misc/O3deUtils_MiscConfiguration.h>
 
 namespace O3deUtils::Misc::LevelSystemUtils
 {

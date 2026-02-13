@@ -3,7 +3,7 @@
 #error "This file assumes it's being used for client code."
 #endif // #if !AZ_TRAIT_CLIENT
 
-#include <O3deUtils_Misc/Client/CanvasUtils.h>
+#include <O3deUtils/Misc/Client/CanvasUtils.h>
 
 #include <AzCore/Console/ILogger.h>
 #include <AzCore/Component/Entity.h>
