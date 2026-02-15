@@ -60,9 +60,7 @@ namespace O3deUtils
 
     Multiplayer::NetBindComponent& GetNetBindComponentAsserted(const AZ::Component& component)
     {
-        const Multiplayer::INetworkEntityManager* networkEntityManagerPtr = Multiplayer::GetNetworkEntityManager();
-        AZ_Assert(networkEntityManagerPtr, "This should always exist at this time.");
-        const Multiplayer::INetworkEntityManager& networkEntityManager = *networkEntityManagerPtr;
+        const Multiplayer::INetworkEntityManager& networkEntityManager = GetNetworkEntityManagerAsserted();
 
         const Multiplayer::NetEntityId& netEntityId = networkEntityManager.GetNetEntityIdById(component.GetEntityId());
         const Multiplayer::ConstNetworkEntityHandle& netEntityHandle = networkEntityManager.GetEntity(netEntityId);
@@ -128,5 +126,38 @@ namespace O3deUtils
         }
 
         return result;
+    }
+
+    AZ::EntityId O3deUtils::TryGetEntityIdByNetEntityId(const Multiplayer::NetEntityId netEntityId)
+    {
+        Multiplayer::ConstNetworkEntityHandle networkEntityHandle = GetNetworkEntityManagerAsserted().GetEntity(netEntityId);
+
+        const AZ::Entity* entity = AZStd::move(networkEntityHandle).GetEntity();
+        if (!entity)
+        {
+            // @Christian: TODO: [todo][log] It might be nice to log (verbose log level) why we couldn't get the
+            // entity. E.g., invalid net entity id or no mapping in the network entity tracker?
+            return AZ::EntityId{};
+        }
+
+        const AZ::EntityId entityId = entity->GetId();
+        return entityId;
+    }
+
+    AZ::EntityId O3deUtils::GetEntityIdByNetEntityIdAsserted(const Multiplayer::NetEntityId netEntityId)
+    {
+        if (netEntityId == Multiplayer::InvalidNetEntityId)
+        {
+            return AZ::EntityId{};
+        }
+
+        Multiplayer::ConstNetworkEntityHandle networkEntityHandle = GetNetworkEntityManagerAsserted().GetEntity(netEntityId);
+        AZ_Assert(IsNetworkEntityHandleSet(networkEntityHandle), "Should be valid.");
+
+        const AZ::Entity* entity = AZStd::move(networkEntityHandle).GetEntity();
+        AZ_Assert(entity, "Shouldn't be null.");
+
+        const AZ::EntityId entityId = entity->GetId();
+        return entityId;
     }
 } // namespace O3deUtils

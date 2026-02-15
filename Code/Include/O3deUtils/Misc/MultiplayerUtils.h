@@ -3,10 +3,12 @@
 
 #include <O3deUtils/Misc/O3deUtils_MiscConfiguration.h>
 #include <Multiplayer/MultiplayerTypes.h>
+#include <AzCore/Component/EntityId.h>
 
 namespace AZ
 {
     class Component;
+    class EntityId;
 
     namespace Data
     {
@@ -62,6 +64,10 @@ namespace O3deUtils
         uint32_t entityOffset = Multiplayer::PrefabEntityId::AllIndices);
 
     O3DEUTILS_MISC_API bool IsNetworkEntityHandleSet(const Multiplayer::ConstNetworkEntityHandle& value);
+
+    O3DEUTILS_MISC_API AZ::EntityId TryGetEntityIdByNetEntityId(const Multiplayer::NetEntityId netEntityId);
+
+    O3DEUTILS_MISC_API AZ::EntityId GetEntityIdByNetEntityIdAsserted(const Multiplayer::NetEntityId netEntityId);
 } // namespace O3deUtils
 
 #include <O3deUtils/Misc/MultiplayerUtils.inl>
