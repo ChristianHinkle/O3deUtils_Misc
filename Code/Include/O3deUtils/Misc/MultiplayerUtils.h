@@ -27,6 +27,7 @@ namespace Multiplayer
     class NetBindComponent;
     struct PrefabEntityId;
     enum class MultiplayerAgentType;
+    class ConstNetworkEntityHandle;
 }
 
 namespace O3deUtils
@@ -59,6 +60,8 @@ namespace O3deUtils
     O3DEUTILS_MISC_API Multiplayer::PrefabEntityId MakePrefabEntityIdFromSpawnableAsset(
         const AZ::Data::Asset<AzFramework::Spawnable>& spawnableAsset,
         uint32_t entityOffset = Multiplayer::PrefabEntityId::AllIndices);
+
+    O3DEUTILS_MISC_API bool IsNetworkEntityHandleSet(const Multiplayer::ConstNetworkEntityHandle& value);
 } // namespace O3deUtils
 
 #include <O3deUtils/Misc/MultiplayerUtils.inl>

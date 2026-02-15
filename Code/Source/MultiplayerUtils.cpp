@@ -8,6 +8,7 @@
 #include <AzCore/Asset/AssetCommon.h>
 #include <AzFramework/Spawnable/Spawnable.h>
 #include <Multiplayer/MultiplayerTypes.h>
+#include <Multiplayer/NetworkEntity/NetworkEntityHandle.h>
 
 namespace O3deUtils
 {
@@ -114,5 +115,18 @@ namespace O3deUtils
             AZ::Name{spawnableAsset.GetHint()},
             entityOffset
         };
+    }
+
+    bool IsNetworkEntityHandleSet(const Multiplayer::ConstNetworkEntityHandle& value)
+    {
+        bool result = value.GetNetEntityId() != Multiplayer::InvalidNetEntityId;
+
+        if (!result)
+        {
+            AZ_Assert(!value.GetEntity(), "The network entity handle is an InvalidNetEntityId, but the entity is valid. This is weird.");
+            AZ_Assert(!value.GetNetBindComponent(), "The network entity handle is an InvalidNetEntityId, but the net bind component is valid. This is weird.");
+        }
+
+        return result;
     }
 } // namespace O3deUtils
