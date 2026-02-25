@@ -4,6 +4,7 @@
 #include <O3deUtils/Misc/O3deUtils_MiscConfiguration.h>
 #include <Multiplayer/MultiplayerTypes.h>
 #include <AzCore/Component/EntityId.h>
+#include <O3deUtils/Core/AzCoreUtils.h>
 
 namespace AZ
 {
@@ -68,6 +69,8 @@ namespace O3deUtils
     O3DEUTILS_MISC_API AZ::EntityId TryGetEntityIdByNetEntityId(const Multiplayer::NetEntityId netEntityId);
 
     O3DEUTILS_MISC_API AZ::EntityId GetEntityIdByNetEntityIdAsserted(const Multiplayer::NetEntityId netEntityId);
+
+    inline EnumIntFixedStringDec<Multiplayer::NetEntityId> NetEntityIdToString(const Multiplayer::NetEntityId netEntityId);
 } // namespace O3deUtils
 
 #include <O3deUtils/Misc/MultiplayerUtils.inl>

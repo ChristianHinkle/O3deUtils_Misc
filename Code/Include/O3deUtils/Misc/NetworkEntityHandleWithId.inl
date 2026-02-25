@@ -8,7 +8,6 @@
 #include <O3deUtils/Misc/MultiplayerUtils.h>
 #include <Multiplayer/NetworkEntity/INetworkEntityManager.h>
 #include <O3deUtils/Core/AzCoreUtils.h>
-#include <CppUtils/StdReimpl/Utility.h>
 
 namespace O3deUtils
 {
@@ -56,10 +55,10 @@ namespace O3deUtils
                         errorString += "The two parameters should be referencing the same entity!";
                         errorString += ' ';
                         errorString += "Entity id's corresponding net entity id: ";
-                        errorString += O3deUtils::IntegerToString(StdReimpl::to_underlying(entityIdNetEntityId));
+                        errorString += O3deUtils::NetEntityIdToString(entityIdNetEntityId);
                         errorString += ". ";
                         errorString += "The manually passed in network entity handle's net entity id: ";
-                        errorString += O3deUtils::IntegerToString(StdReimpl::to_underlying(networkEntityHandle.GetNetEntityId()));
+                        errorString += O3deUtils::NetEntityIdToString(networkEntityHandle.GetNetEntityId());
                         errorString += '.';
 
                         AZ_Assert(networkEntityHandle.GetNetEntityId() == entityIdNetEntityId, errorString.c_str());

@@ -28,3 +28,8 @@ constexpr bool O3deUtils::IsAgentTypeClient(const Multiplayer::MultiplayerAgentT
 
     return false;
 }
+
+O3deUtils::EnumIntFixedStringDec<Multiplayer::NetEntityId> O3deUtils::NetEntityIdToString(const Multiplayer::NetEntityId netEntityId)
+{
+    return O3deUtils::EnumIntegerToString(netEntityId);
+}
