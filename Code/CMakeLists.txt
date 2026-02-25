@@ -53,6 +53,7 @@ ly_add_target(
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.API
+            Gem::O3deUtils_Core.Unified.API
             Gem::Multiplayer.Unified
             Gem::LyShine.Unified.API
 )
@@ -65,6 +66,7 @@ ly_add_target(
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.API
+            Gem::O3deUtils_Core.Servers.API
             Gem::Multiplayer.Servers
 )
 
@@ -77,6 +79,7 @@ ly_add_target(
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.API
+            Gem::O3deUtils_Core.Clients.API
             Gem::Multiplayer.Clients
             Gem::LyShine.Clients.API
 )
@@ -130,6 +133,7 @@ ly_add_target(
         INTERFACE
             Gem::${gem_name}.Common.Private.Object
             Gem::${gem_name}.Unified.API
+            Gem::O3deUtils_Core.Unified
             Gem::Multiplayer.Unified.Static
             Gem::LyShine.Unified
 )
@@ -145,6 +149,7 @@ ly_add_target(
         INTERFACE
             Gem::${gem_name}.Common.Private.Object
             Gem::${gem_name}.Servers.API
+            Gem::O3deUtils_Core.Servers
             Gem::Multiplayer.Server.Static
 )
 
@@ -160,6 +165,7 @@ ly_add_target(
         INTERFACE
             Gem::${gem_name}.Common.Private.Object
             Gem::${gem_name}.Clients.API
+            Gem::O3deUtils_Core.Clients
             Gem::Multiplayer.Client.Static
             Gem::LyShine.Clients
 )

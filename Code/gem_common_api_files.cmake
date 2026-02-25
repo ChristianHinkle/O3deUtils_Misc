@@ -6,4 +6,6 @@ set(FILES
     Include/O3deUtils/Misc/LevelSystemUtils.h
     Include/O3deUtils/Misc/MultiplayerUtils.h
     Include/O3deUtils/Misc/MultiplayerUtils.inl
+    Include/O3deUtils/Misc/NetworkEntityHandleWithId.h
+    Include/O3deUtils/Misc/NetworkEntityHandleWithId.inl
 )

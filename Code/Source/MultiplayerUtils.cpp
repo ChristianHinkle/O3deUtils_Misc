@@ -9,6 +9,8 @@
 #include <AzFramework/Spawnable/Spawnable.h>
 #include <Multiplayer/MultiplayerTypes.h>
 #include <Multiplayer/NetworkEntity/NetworkEntityHandle.h>
+#include <Multiplayer/NetworkEntity/INetworkEntityManager.h>
+#include <O3deUtils/Core/AzCoreUtils.h>
 
 namespace O3deUtils
 {
@@ -87,14 +89,7 @@ namespace O3deUtils
             logString += "' has multiple entities. Only the first one will be used.";
             logString += ' ';
             logString += "Size of entity list: `";
-
-            {
-                AZStd::fixed_string<32> entityIdString;
-                AZStd::to_string(entityIdString, numEntitiesInPrefab);
-
-                logString += entityIdString;
-            }
-
+            logString += O3deUtils::IntegerToString(numEntitiesInPrefab);
             logString += "`.";
             logString += ' ';
             logString += "Two is the expected value for that array.";

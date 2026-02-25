@@ -6,4 +6,5 @@ set(FILES
     Source/O3deUtils_MiscSystemComponent.h
     Source/LevelSystemUtils.cpp
     Source/MultiplayerUtils.cpp
+    Source/NetworkEntityHandleWithId.cpp
 )
