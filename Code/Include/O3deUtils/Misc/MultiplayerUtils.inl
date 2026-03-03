@@ -33,3 +33,8 @@ O3deUtils::EnumIntFixedStringDec<Multiplayer::NetEntityId> O3deUtils::NetEntityI
 {
     return O3deUtils::EnumIntegerToString(netEntityId);
 }
+
+constexpr bool O3deUtils::IsLocalClientConnectionId(const AzNetworking::ConnectionId connectionId)
+{
+    return connectionId == LocalClientConnectionId;
+}

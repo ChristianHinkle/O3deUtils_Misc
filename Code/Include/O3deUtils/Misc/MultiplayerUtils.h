@@ -5,6 +5,7 @@
 #include <Multiplayer/MultiplayerTypes.h>
 #include <AzCore/Component/EntityId.h>
 #include <O3deUtils/Core/AzCoreUtils.h>
+#include <AzNetworking/ConnectionLayer/IConnection.h>
 
 namespace AZ
 {
@@ -47,9 +48,9 @@ namespace O3deUtils
 
     O3DEUTILS_MISC_API bool IsClient(Multiplayer::IMultiplayer& multiplayer = GetMultiplayerAsserted());
 
-    O3DEUTILS_MISC_API constexpr bool IsAgentTypeHosting(const Multiplayer::MultiplayerAgentType agentType);
+    constexpr bool IsAgentTypeHosting(const Multiplayer::MultiplayerAgentType agentType);
 
-    O3DEUTILS_MISC_API constexpr bool IsAgentTypeClient(const Multiplayer::MultiplayerAgentType agentType);
+    constexpr bool IsAgentTypeClient(const Multiplayer::MultiplayerAgentType agentType);
 
     //! @brief Starts hosting. Same behavior as the "Host" console command.
     O3DEUTILS_MISC_API void PerformHostCommand();
@@ -71,6 +72,13 @@ namespace O3deUtils
     O3DEUTILS_MISC_API AZ::EntityId GetEntityIdByNetEntityIdAsserted(const Multiplayer::NetEntityId netEntityId);
 
     inline EnumIntFixedStringDec<Multiplayer::NetEntityId> NetEntityIdToString(const Multiplayer::NetEntityId netEntityId);
+
+    //! @brief On listening servers, the client connection id which represents a "local" client. I.e., themselves.
+    //! @remark This mirrors behavior of how the `MultiplayerSystemComponent` determines whether a connection id is the local one.
+    constexpr AzNetworking::ConnectionId LocalClientConnectionId = AzNetworking::InvalidConnectionId;
+
+    //! @brief For listening servers to determine if the given client connection id represents a "local" client. I.e., themselves.
+    constexpr bool IsLocalClientConnectionId(const AzNetworking::ConnectionId connectionId);
 } // namespace O3deUtils
 
 #include <O3deUtils/Misc/MultiplayerUtils.inl>
