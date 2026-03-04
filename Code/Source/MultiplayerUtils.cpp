@@ -60,18 +60,21 @@ namespace O3deUtils
         console->PerformCommand("Host");
     }
 
-    Multiplayer::NetBindComponent& GetNetBindComponentAsserted(const AZ::Component& component)
+    Multiplayer::NetBindComponent& GetNetBindComponentAsserted(const AZ::EntityId entityId)
+    {
+        Multiplayer::NetBindComponent* netBindComponentPtr = TryGetNetBindComponent(entityId);
+        AZ_Assert(netBindComponentPtr, "This component is required and will always exist.");
+        return *netBindComponentPtr;
+    }
+
+    Multiplayer::NetBindComponent* TryGetNetBindComponent(const AZ::EntityId entityId)
     {
         const Multiplayer::INetworkEntityManager& networkEntityManager = GetNetworkEntityManagerAsserted();
 
-        const Multiplayer::NetEntityId& netEntityId = networkEntityManager.GetNetEntityIdById(component.GetEntityId());
+        const Multiplayer::NetEntityId& netEntityId = networkEntityManager.GetNetEntityIdById(entityId);
         const Multiplayer::ConstNetworkEntityHandle& netEntityHandle = networkEntityManager.GetEntity(netEntityId);
 
-        Multiplayer::NetBindComponent* netBindComponentPtr = netEntityHandle.GetNetBindComponent();
-        AZ_Assert(netBindComponentPtr, "This component is required and will always exist.");
-        Multiplayer::NetBindComponent& netBindComponent = *netBindComponentPtr;
-
-        return netBindComponent;
+        return netEntityHandle.GetNetBindComponent();
     }
 
     Multiplayer::PrefabEntityId MakeSinglePrefabEntityIdFromSpawnableAsset(const AZ::Data::Asset<AzFramework::Spawnable>& spawnableAsset)
@@ -154,5 +157,71 @@ namespace O3deUtils
 
         const AZ::EntityId entityId = entity->GetId();
         return entityId;
+    }
+
+    Multiplayer::NetEntityRole O3deUtils::GetNetEntityRole(const AZ::EntityId entityId)
+    {
+        const Multiplayer::NetBindComponent* foundNetBindComponent = TryGetNetBindComponent(entityId);
+        if (!foundNetBindComponent)
+        {
+            AZStd::fixed_string<256> logString;
+
+            logString += '`';
+            logString += __func__;
+            logString += "`: ";
+            logString += "No net bind component found on the entity: ";
+            logString += O3deUtils::EntityIdToString(entityId);
+            logString += ". Returning invalid role.";
+
+            AZLOG_WARN(logString.data());
+
+            return Multiplayer::NetEntityRole::InvalidRole;
+        }
+
+        return foundNetBindComponent->GetNetEntityRole();
+    }
+
+    bool O3deUtils::IsNetEntityRoleAutonomous(const AZ::EntityId entityId)
+    {
+        const Multiplayer::NetBindComponent* foundNetBindComponent = TryGetNetBindComponent(entityId);
+        if (!foundNetBindComponent)
+        {
+            AZStd::fixed_string<256> logString;
+
+            logString += '`';
+            logString += __func__;
+            logString += "`: ";
+            logString += "No net bind component found on the entity: ";
+            logString += O3deUtils::EntityIdToString(entityId);
+            logString += ". Returning false.";
+
+            AZLOG_WARN(logString.data());
+
+            return false;
+        }
+
+        return foundNetBindComponent->IsNetEntityRoleAutonomous();
+    }
+
+    bool O3deUtils::IsNetEntityRoleAuthority(const AZ::EntityId entityId)
+    {
+        const Multiplayer::NetBindComponent* foundNetBindComponent = TryGetNetBindComponent(entityId);
+        if (!foundNetBindComponent)
+        {
+            AZStd::fixed_string<256> logString;
+
+            logString += '`';
+            logString += __func__;
+            logString += "`: ";
+            logString += "No net bind component found on the entity: ";
+            logString += O3deUtils::EntityIdToString(entityId);
+            logString += ". Returning false.";
+
+            AZLOG_WARN(logString.data());
+
+            return false;
+        }
+
+        return foundNetBindComponent->IsNetEntityRoleAuthority();
     }
 } // namespace O3deUtils

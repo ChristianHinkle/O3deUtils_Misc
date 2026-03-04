@@ -55,7 +55,8 @@ namespace O3deUtils
     //! @brief Starts hosting. Same behavior as the "Host" console command.
     O3DEUTILS_MISC_API void PerformHostCommand();
 
-    O3DEUTILS_MISC_API Multiplayer::NetBindComponent& GetNetBindComponentAsserted(const AZ::Component& component);
+    O3DEUTILS_MISC_API Multiplayer::NetBindComponent& GetNetBindComponentAsserted(const AZ::EntityId entityId);
+    O3DEUTILS_MISC_API Multiplayer::NetBindComponent* TryGetNetBindComponent(const AZ::EntityId entityId);
 
     //! @brief Constructs a PrefabEntityId from a spawnable asset reference with the intention of it only producing a single entity.
     O3DEUTILS_MISC_API Multiplayer::PrefabEntityId MakeSinglePrefabEntityIdFromSpawnableAsset(
@@ -79,6 +80,11 @@ namespace O3deUtils
 
     //! @brief For listening servers to determine if the given client connection id represents a "local" client. I.e., themselves.
     constexpr bool IsLocalClientConnectionId(const AzNetworking::ConnectionId connectionId);
+
+    O3DEUTILS_MISC_API Multiplayer::NetEntityRole GetNetEntityRole(const AZ::EntityId entityId);
+
+    O3DEUTILS_MISC_API bool IsNetEntityRoleAutonomous(const AZ::EntityId entityId);
+    O3DEUTILS_MISC_API bool IsNetEntityRoleAuthority(const AZ::EntityId entityId);
 } // namespace O3deUtils
 
 #include <O3deUtils/Misc/MultiplayerUtils.inl>
