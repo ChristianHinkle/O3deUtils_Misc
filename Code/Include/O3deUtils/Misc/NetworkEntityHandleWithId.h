@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <O3deUtils/Misc/O3deUtils_MiscConfiguration.h>
+#include <O3deUtils_MiscConfiguration.h>
 #include <CppUtils/StdReimpl/concepts.h>
 #include <Multiplayer/NetworkEntity/NetworkEntityHandle.h>
 

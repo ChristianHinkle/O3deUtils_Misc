@@ -1,12 +1,11 @@
 
-#include <O3deUtils/Misc/O3deUtils_MiscTypeIds.h>
 #include <Source/O3deUtils_MiscModuleInterface.h>
+#include <O3deUtils_MiscTypeIds.h>
 #include <Source/Tools/O3deUtils_MiscEditorSystemComponent.h>
 
 namespace O3deUtils
 {
-    class O3deUtils_MiscEditorModule
-        : public O3deUtils_MiscModuleInterface
+    class O3deUtils_MiscEditorModule : public O3deUtils_MiscModuleInterface
     {
     public:
         AZ_RTTI(O3deUtils_MiscEditorModule, O3deUtils_MiscEditorModuleTypeId, O3deUtils_MiscModuleInterface);
@@ -14,24 +13,24 @@ namespace O3deUtils
 
         O3deUtils_MiscEditorModule()
         {
-            // Push results of [MyComponent]::CreateDescriptor() into m_descriptors here.
-            // Add ALL components descriptors associated with this gem to m_descriptors.
-            // This will associate the AzTypeInfo information for the components with the the SerializeContext, BehaviorContext and EditContext.
-            // This happens through the [MyComponent]::Reflect() function.
+            // Append editor-only items.
             m_descriptors.insert(m_descriptors.end(), {
                 O3deUtils_MiscEditorSystemComponent::CreateDescriptor(),
-            });
+                }
+            );
         }
 
-        /**
-         * Add required SystemComponents to the SystemEntity.
-         * Non-SystemComponents should not be added here
-         */
         AZ::ComponentTypeList GetRequiredSystemComponents() const override
         {
-            return AZ::ComponentTypeList {
+            AZ::ComponentTypeList list = O3deUtils_MiscModuleInterface::GetRequiredSystemComponents();
+
+            // Append editor-only items.
+            list.insert(list.end(), {
                 azrtti_typeid<O3deUtils_MiscEditorSystemComponent>(),
-            };
+                }
+            );
+
+            return list;
         }
     };
 }

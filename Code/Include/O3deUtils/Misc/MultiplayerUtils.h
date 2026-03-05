@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <O3deUtils/Misc/O3deUtils_MiscConfiguration.h>
+#include <O3deUtils_MiscConfiguration.h>
 #include <Multiplayer/MultiplayerTypes.h>
 #include <AzCore/Component/EntityId.h>
 #include <O3deUtils/Core/AzCoreUtils.h>
