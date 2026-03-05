@@ -6,7 +6,7 @@
 #include <O3deUtils/Misc/O3deUtils_MiscBus.h>
 #include <O3deUtils/Misc/O3deUtils_MiscConfiguration.h>
 
-namespace O3deUtils_Misc
+namespace O3deUtils
 {
     class O3DEUTILS_MISC_API O3deUtils_MiscSystemComponent
         : public AZ::Component
@@ -45,4 +45,4 @@ namespace O3deUtils_Misc
         ////////////////////////////////////////////////////////////////////////
     };
 
-} // namespace O3deUtils_Misc
+}

@@ -3,7 +3,7 @@
 #include <Source/O3deUtils_MiscModuleInterface.h>
 #include <Source/Tools/O3deUtils_MiscEditorSystemComponent.h>
 
-namespace O3deUtils_Misc
+namespace O3deUtils
 {
     class O3deUtils_MiscEditorModule
         : public O3deUtils_MiscModuleInterface
@@ -34,10 +34,10 @@ namespace O3deUtils_Misc
             };
         }
     };
-}// namespace O3deUtils_Misc
+}
 
 #if defined(O3DE_GEM_NAME)
-AZ_DECLARE_MODULE_CLASS(AZ_JOIN(Gem_, O3DE_GEM_NAME, _Editor), O3deUtils_Misc::O3deUtils_MiscEditorModule)
+AZ_DECLARE_MODULE_CLASS(AZ_JOIN(Gem_, O3DE_GEM_NAME, _Editor), O3deUtils::O3deUtils_MiscEditorModule)
 #else
-AZ_DECLARE_MODULE_CLASS(Gem_O3deUtils_Misc_Editor, O3deUtils_Misc::O3deUtils_MiscEditorModule)
+AZ_DECLARE_MODULE_CLASS(Gem_O3deUtils_Misc_Editor, O3deUtils::O3deUtils_MiscEditorModule)
 #endif

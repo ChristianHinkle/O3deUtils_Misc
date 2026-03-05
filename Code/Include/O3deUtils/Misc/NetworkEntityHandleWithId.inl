@@ -78,4 +78,4 @@ namespace O3deUtils
             m_entityId.SetInvalid();
         }
     }
-} // namespace O3deUtils
+}

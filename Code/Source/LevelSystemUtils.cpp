@@ -56,4 +56,4 @@ namespace O3deUtils
 
         console->PerformCommand(consoleCommand.data());
     }
-} // namespace O3deUtils
+}

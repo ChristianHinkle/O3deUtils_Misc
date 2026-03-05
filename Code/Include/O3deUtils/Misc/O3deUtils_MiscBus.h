@@ -6,7 +6,7 @@
 #include <AzCore/EBus/EBus.h>
 #include <AzCore/Interface/Interface.h>
 
-namespace O3deUtils_Misc
+namespace O3deUtils
 {
     class O3deUtils_MiscRequests
     {
@@ -30,4 +30,4 @@ namespace O3deUtils_Misc
     using O3deUtils_MiscRequestBus = AZ::EBus<O3deUtils_MiscRequests, O3deUtils_MiscBusTraits>;
     using O3deUtils_MiscInterface = AZ::Interface<O3deUtils_MiscRequests>;
 
-} // namespace O3deUtils_Misc
+}

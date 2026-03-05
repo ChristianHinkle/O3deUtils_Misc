@@ -5,7 +5,7 @@
 
 #include <Source/O3deUtils_MiscSystemComponent.h>
 
-namespace O3deUtils_Misc
+namespace O3deUtils
 {
     /// System component for O3deUtils_Misc editor
     class O3deUtils_MiscEditorSystemComponent
@@ -31,4 +31,4 @@ namespace O3deUtils_Misc
         void Activate() override;
         void Deactivate() override;
     };
-} // namespace O3deUtils_Misc
+}

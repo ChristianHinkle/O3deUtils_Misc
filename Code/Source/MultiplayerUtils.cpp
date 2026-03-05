@@ -224,4 +224,4 @@ namespace O3deUtils
 
         return foundNetBindComponent->IsNetEntityRoleAuthority();
     }
-} // namespace O3deUtils
+}

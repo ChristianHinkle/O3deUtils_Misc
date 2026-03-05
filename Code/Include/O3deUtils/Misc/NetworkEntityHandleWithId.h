@@ -60,6 +60,6 @@ namespace O3deUtils
     // Provide nice type aliases to the template class.
     using NetworkEntityHandleWithId = Detail::NetworkEntityHandleWithId<Multiplayer::NetworkEntityHandle>;
     using ConstNetworkEntityHandleWithId = Detail::NetworkEntityHandleWithId<Multiplayer::ConstNetworkEntityHandle>;
-} // namespace O3deUtils
+}
 
 #include <O3deUtils/Misc/NetworkEntityHandleWithId.inl>

@@ -6,7 +6,7 @@
 
 #include <Source/O3deUtils_MiscSystemComponent.h>
 
-namespace O3deUtils_Misc
+namespace O3deUtils
 {
     AZ_TYPE_INFO_WITH_NAME_IMPL(O3deUtils_MiscModuleInterface,
         "O3deUtils_MiscModuleInterface", O3deUtils_MiscModuleInterfaceTypeId);
@@ -30,4 +30,4 @@ namespace O3deUtils_Misc
             azrtti_typeid<O3deUtils_MiscSystemComponent>(),
         };
     }
-} // namespace O3deUtils_Misc
+}

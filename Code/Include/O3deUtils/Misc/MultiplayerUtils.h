@@ -85,6 +85,6 @@ namespace O3deUtils
 
     O3DEUTILS_MISC_API bool IsNetEntityRoleAutonomous(const AZ::EntityId entityId);
     O3DEUTILS_MISC_API bool IsNetEntityRoleAuthority(const AZ::EntityId entityId);
-} // namespace O3deUtils
+}
 
 #include <O3deUtils/Misc/MultiplayerUtils.inl>

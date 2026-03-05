@@ -36,4 +36,4 @@ namespace O3deUtils
             &UiCanvasManagerInterface::UnloadCanvas,
             canvasEntityId);
     }
-} // namespace O3deUtils
+}
