@@ -269,8 +269,8 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         NAME ${gem_name}.Tools.API INTERFACE
         NAMESPACE Gem
         FILES_CMAKE
-            gem_tools_api_files.cmake
-            ${pal_dir}/gem_tools_api_files.cmake
+            gem_editor_api_files.cmake
+            ${pal_dir}/gem_editor_api_files.cmake
         INCLUDE_DIRECTORIES
             INTERFACE
                 Include
@@ -286,7 +286,7 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         NAME ${gem_name}.Tools.Private.Object INTERFACE
         NAMESPACE Gem
         FILES_CMAKE
-            gem_tools_private_files.cmake
+            gem_editor_private_files.cmake
         TARGET_PROPERTIES
             O3DE_PRIVATE_TARGET TRUE
         INCLUDE_DIRECTORIES
@@ -303,9 +303,9 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
         NAMESPACE Gem
         AUTOMOC
         FILES_CMAKE
-            gem_tools_api_files.cmake
-            gem_tools_private_files.cmake
-            gem_tools_shared_files.cmake
+            gem_editor_api_files.cmake
+            gem_editor_private_files.cmake
+            gem_editor_shared_files.cmake
         BUILD_DEPENDENCIES
             PUBLIC
                 Gem::${gem_name}.Tools.API
@@ -375,7 +375,7 @@ if(PAL_TRAIT_BUILD_TESTS_SUPPORTED)
                 NAME ${gem_name}.Tools.Tests ${PAL_TRAIT_TEST_TARGET_TYPE}
                 NAMESPACE Gem
                 FILES_CMAKE
-                    gem_tools_tests_files.cmake
+                    gem_editor_tests_files.cmake
                 INCLUDE_DIRECTORIES
                     PRIVATE
                         Tests
