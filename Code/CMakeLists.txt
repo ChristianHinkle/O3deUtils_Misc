@@ -49,7 +49,7 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_API_FILES_CMAKE}
-        gem_client_api_files.cmake
+        gem_common_api_client_files.cmake
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.API
@@ -75,7 +75,7 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_API_FILES_CMAKE}
-        gem_client_api_files.cmake
+        gem_common_api_client_files.cmake
     BUILD_DEPENDENCIES
         INTERFACE
             Gem::${gem_name}.Common.API
@@ -126,7 +126,7 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
-        gem_client_private_files.cmake
+        gem_common_private_client_files.cmake
     TARGET_PROPERTIES
         ${${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     BUILD_DEPENDENCIES
@@ -158,7 +158,7 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
-        gem_client_private_files.cmake
+        gem_common_private_client_files.cmake
     TARGET_PROPERTIES
         ${${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES}
     BUILD_DEPENDENCIES
@@ -178,8 +178,8 @@ unset(${gem_name}_COMMON_PRIVATE_OBJECT_TARGET_PROPERTIES)
 set(${gem_name}_COMMON_FILES_CMAKE
     ${${gem_name}_COMMON_API_FILES_CMAKE}
     ${${gem_name}_COMMON_PRIVATE_OBJECT_FILES_CMAKE}
-    gem_common_shared_files.cmake
-    ${pal_dir}/gem_common_shared_files.cmake
+    gem_game_shared_files.cmake
+    ${pal_dir}/gem_game_shared_files.cmake
     gem_common_autogen_files.cmake
 )
 
@@ -198,8 +198,8 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_FILES_CMAKE}
-        gem_client_api_files.cmake
-        gem_client_private_files.cmake
+        gem_common_api_client_files.cmake
+        gem_common_private_client_files.cmake
     BUILD_DEPENDENCIES
         PUBLIC
             Gem::${gem_name}.Unified.API
@@ -228,8 +228,8 @@ ly_add_target(
     NAMESPACE Gem
     FILES_CMAKE
         ${${gem_name}_COMMON_FILES_CMAKE}
-        gem_client_api_files.cmake
-        gem_client_private_files.cmake
+        gem_common_api_client_files.cmake
+        gem_common_private_client_files.cmake
     BUILD_DEPENDENCIES
         PUBLIC
             Gem::${gem_name}.Clients.API
