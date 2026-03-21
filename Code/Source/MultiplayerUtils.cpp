@@ -128,9 +128,31 @@ namespace O3deUtils
 
     AZ::EntityId O3deUtils::TryGetEntityIdByNetEntityId(const Multiplayer::NetEntityId netEntityId)
     {
-        Multiplayer::ConstNetworkEntityHandle networkEntityHandle = GetNetworkEntityManagerAsserted().GetEntity(netEntityId);
+        if (netEntityId == Multiplayer::InvalidNetEntityId)
+        {
+            return AZ::EntityId{};
+        }
 
-        const AZ::Entity* entity = AZStd::move(networkEntityHandle).GetEntity();
+        return TryGetEntityIdFromNetworkHandle(
+            GetNetworkEntityManagerAsserted().GetEntity(netEntityId)
+        );
+    }
+
+    AZ::EntityId O3deUtils::GetEntityIdByNetEntityIdAsserted(const Multiplayer::NetEntityId netEntityId)
+    {
+        if (netEntityId == Multiplayer::InvalidNetEntityId)
+        {
+            return AZ::EntityId{};
+        }
+
+        return GetEntityIdFromNetworkHandleAsserted(
+            GetNetworkEntityManagerAsserted().GetEntity(netEntityId)
+        );
+    }
+
+    AZ::EntityId O3deUtils::TryGetEntityIdFromNetworkHandle(const Multiplayer::ConstNetworkEntityHandle& networkHandle)
+    {
+        const AZ::Entity* entity = networkHandle.GetEntity();
         if (!entity)
         {
             // @Christian: TODO: [todo][log] It might be nice to log (verbose log level) why we couldn't get the
@@ -142,17 +164,11 @@ namespace O3deUtils
         return entityId;
     }
 
-    AZ::EntityId O3deUtils::GetEntityIdByNetEntityIdAsserted(const Multiplayer::NetEntityId netEntityId)
+    AZ::EntityId O3deUtils::GetEntityIdFromNetworkHandleAsserted(const Multiplayer::ConstNetworkEntityHandle& networkHandle)
     {
-        if (netEntityId == Multiplayer::InvalidNetEntityId)
-        {
-            return AZ::EntityId{};
-        }
+        AZ_Assert(IsNetworkEntityHandleSet(networkHandle), "Should be valid.");
 
-        Multiplayer::ConstNetworkEntityHandle networkEntityHandle = GetNetworkEntityManagerAsserted().GetEntity(netEntityId);
-        AZ_Assert(IsNetworkEntityHandleSet(networkEntityHandle), "Should be valid.");
-
-        const AZ::Entity* entity = AZStd::move(networkEntityHandle).GetEntity();
+        const AZ::Entity* entity = networkHandle.GetEntity();
         AZ_Assert(entity, "Shouldn't be null.");
 
         const AZ::EntityId entityId = entity->GetId();

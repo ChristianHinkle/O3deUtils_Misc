@@ -69,8 +69,10 @@ namespace O3deUtils
     O3DEUTILS_MISC_API bool IsNetworkEntityHandleSet(const Multiplayer::ConstNetworkEntityHandle& value);
 
     O3DEUTILS_MISC_API AZ::EntityId TryGetEntityIdByNetEntityId(const Multiplayer::NetEntityId netEntityId);
-
     O3DEUTILS_MISC_API AZ::EntityId GetEntityIdByNetEntityIdAsserted(const Multiplayer::NetEntityId netEntityId);
+
+    O3DEUTILS_MISC_API AZ::EntityId TryGetEntityIdFromNetworkHandle(const Multiplayer::ConstNetworkEntityHandle& networkHandle);
+    O3DEUTILS_MISC_API AZ::EntityId GetEntityIdFromNetworkHandleAsserted(const Multiplayer::ConstNetworkEntityHandle& networkHandle);
 
     inline EnumIntFixedStringDec<Multiplayer::NetEntityId> NetEntityIdToString(const Multiplayer::NetEntityId netEntityId);
 
